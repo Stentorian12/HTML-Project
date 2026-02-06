@@ -56,6 +56,33 @@
         .btn-style { padding: 12px 25px; border-radius: 10px; border: none; background: white; color: #ff4d6d; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 100; }
         
         video { border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        /* Add this to your existing CSS for a "Premium" feel */
+body, html {
+    background: linear-gradient(135deg, #ff9a9e, #fecfef, #ffe6ee);
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease infinite;
+}
+
+/* This makes your buttons and clouds look like frosted glass */
+.cloud-msg, .btn-style, .polaroid {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Adding a subtle sparkle effect to the background */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: radial-gradient(circle, white 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.2;
+    pointer-events: none;
+    z-index: 1;
+}
+
     </style>
 </head>
 <body>
