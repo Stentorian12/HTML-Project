@@ -71,7 +71,7 @@ body, html {
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* Adding a subtle sparkle effect to the background */
+/* This moves the sparkles behind your media/buttons */
 body::after {
     content: "";
     position: fixed;
@@ -80,8 +80,9 @@ body::after {
     background-size: 50px 50px;
     opacity: 0.2;
     pointer-events: none;
-    z-index: 1;
+    z-index: -1; /* Changed from 1 to -1 */
 }
+
 
     </style>
 </head>
