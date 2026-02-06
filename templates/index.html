@@ -6,6 +6,7 @@
     <title>Hi ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* All your beautiful animations and styles */
         .cloud-msg {
             position: absolute; background: white; padding: 12px 20px; border-radius: 30px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05); color: #ff4d6d; font-weight: 600;
@@ -38,11 +39,13 @@
 
         .page { display: none; width: 100%; height: 100vh; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         #page1 { display: flex; }
-        h1 { font-weight: 600; color: #ff4d6d; margin: 20px; font-size: 1.5rem; padding: 0 10px; }
+        h1 { font-weight: 600; color: #ff4d6d; margin: 20px; font-size: 1.5rem; padding: 0 10px; z-index: 10; }
 
-        #yes { background: #ff4d6d; color: white; padding: 10px 25px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; animation: yesHeartbeat 1.5s ease-in-out infinite; z-index: 100; }
+        #yes { background: #ff4d6d; color: white; padding: 10px 25px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; animation: yesHeartbeat 1.5s ease-in-out infinite; z-index: 50; }
         @keyframes yesHeartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        #no { background: gray; color: white; padding: 10px 25px; border-radius: 10px; border: none; cursor: pointer; z-index: 100; }
+        
+        /* FIX: High z-index and explicit position for the No button hitbox */
+        #no { background: gray; color: white; padding: 10px 25px; border-radius: 10px; border: none; cursor: pointer; z-index: 1000; position: relative; -webkit-tap-highlight-color: transparent; }
 
         .polaroid { background: white; padding: 10px 10px 30px; width: 130px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: rotate(-3deg); margin: 5px; }
         .polaroid img { width: 100%; border-radius: 5px; display: block; }
@@ -77,9 +80,9 @@
             <source src="../static/images/kisses.mp4" type="video/mp4">
         </video>
         <h1>KEERTHIIIII! MyLOUUUU, will you be my Valentine?(please😞) 💖</h1>
-        <div style="display: flex; gap: 20px; align-items: center; justify-content: center;">
+        <div style="display: flex; gap: 20px; align-items: center; justify-content: center; position: relative; width: 100%; height: 200px;">
             <button id="yes" onclick="goToYesPage()">Yes</button>
-            <button id="no" onmouseover="moveNo()" onclick="moveNo()">No</button>
+            <button id="no" onclick="moveNo(event)">No</button>
         </div>
     </section>
 
@@ -158,15 +161,28 @@
         }
 
         let yesSize = 20;
-        function moveNo() {
+        
+        // IMPROVED MOVE NO FUNCTION
+        function moveNo(e) {
+            // Stop the click from reaching the Yes button underneath
+            if(e) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+
             const noBtn = document.getElementById("no");
             const yesBtn = document.getElementById("yes");
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+
+            // Move to random spot away from the center
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 40) + 20;
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 40) + 20;
+            
             noBtn.style.position = "fixed";
             noBtn.style.left = x + "px";
             noBtn.style.top = y + "px";
-            yesSize += 10;
+
+            // Increase Yes size
+            yesSize += 12;
             yesBtn.style.fontSize = yesSize + "px";
         }
 
