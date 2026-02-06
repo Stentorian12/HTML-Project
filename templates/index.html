@@ -3,157 +3,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Favorite Person</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <title>Hi ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-pink: #ffafbd;
-            --accent-red: #ff4b2b;
-            --soft-white: #fff5f5;
-        }
+.cloud-msg {
+    position: absolute;
+    background: white;
+    padding: 12px 20px;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    color: #ff4d6d;
+    font-weight: 600;
+    font-size: 0.85rem;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0; /* Start invisible for fade-in */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 1s ease;
+}
 
+/* The "Wander" Animation - moves them in a slow, random-ish circle */
+@keyframes wander {
+    0% { transform: translate(0, 0); }
+    33% { transform: translate(15px, -10px); }
+    66% { transform: translate(-10px, 15px); }
+    100% { transform: translate(0, 0); }
+}
+
+/* Add this to create the cloud "bumps" */
+.cloud-msg::before, .cloud-msg::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    z-index: -1;
+}
+.cloud-msg::before { width: 20px; height: 20px; top: -10px; left: 15px; }
+.cloud-msg::after { width: 15px; height: 15px; top: -7px; right: 15px; }        #loading-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: #ffe6ee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.loader-container {
+    width: 250px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(255, 77, 109, 0.2);
+}
+
+#progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff4d6d, #ff8fa3);
+    transition: width 0.4s ease;
+}
+
+#loading-text {
+    margin-top: 15px;
+    font-family: 'Poppins', sans-serif;
+    color: #ff4d6d;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef, #ffe6ee);
+            background-size: 400% 400%;
+            animation: gradientMove 10s ease infinite;
             overflow: hidden;
-            background-color: var(--soft-white);
         }
 
-        /* Common Page Styling */
+        @keyframes gradientMove {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        /* All pages hidden by default except page 1 */
         .page {
-            display: none; width: 100%; height: 100vh;
+            display: none; 
+            width: 100%; height: 100vh;
             flex-direction: column; align-items: center;
             justify-content: center; text-align: center;
-            position: relative; transition: opacity 0.5s ease;
         }
 
-        /* Page 1 Specific: The Birthday Gallery */
-        #page1 {
-            display: flex; /* Starts on Page 1 */
-            background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%); /* Placeholder BG */
-            /* UNCOMMENT THE LINE BELOW LATER TO USE YOUR PIC3 */
-            /* background: url("{{ url_for('static', filename='images/pic3.jpg') }}") center/cover no-repeat; */
+        #page1 { display: flex; } /* Force page 1 to show initially */
+
+        h1 { font-weight: 600; color: #ff4d6d; margin: 20px; }
+
+        #yes {
+            background: #ff4d6d; color: white;
+            padding: 10px 25px; border-radius: 10px; border: none;
+            cursor: pointer; font-weight: 600;
+            animation: yesHeartbeat 1.5s ease-in-out infinite;
+            z-index: 100;
         }
 
-        .overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(2px);
-            z-index: 1;
+        @keyframes yesHeartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
-        .content-box { z-index: 10; padding: 20px; }
-
-        h1 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.2); }
-        
-        button {
-            padding: 15px 30px; font-size: 1.2rem; border: none; border-radius: 50px;
-            background: white; color: var(--accent-red); cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s; font-weight: 600;
+        #no {
+            background: gray; color: white;
+            padding: 10px 25px; border-radius: 10px; border: none;
+            cursor: pointer; z-index: 100;
         }
-        button:hover { transform: scale(1.1); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
 
-        /* Floating Messages */
         .floating-msg {
-            position: absolute; color: white; font-weight: bold; opacity: 0.8;
-            pointer-events: none; z-index: 5; animation: floatUp 8s linear infinite;
+            position: absolute; color: #ff4d6d; font-weight: 600; 
+            opacity: 0.7; pointer-events: none; z-index: 1;
+            animation: floatUp 8s linear infinite;
         }
 
         @keyframes floatUp {
-            from { transform: translateY(110vh) rotate(0deg); opacity: 0; }
-            50% { opacity: 0.8; }
-            to { transform: translateY(-10vh) rotate(20deg); opacity: 0; }
+            from { transform: translateY(110vh); opacity: 0; }
+            50% { opacity: 0.7; }
+            to { transform: translateY(-10vh); opacity: 0; }
         }
 
-        /* Page 3: Polaroids */
-        .polaroid-container { display: flex; gap: 20px; margin-top: 20px; }
         .polaroid {
-            background: white; padding: 10px 10px 30px; width: 150px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2); transform: rotate(-3deg);
+            background: white; padding: 10px 10px 30px; width: 140px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: rotate(-3deg);
+            margin: 10px;
         }
-        .polaroid img { width: 100%; height: auto; }
-        .polaroid.alt { transform: rotate(5deg); }
+        .polaroid img { width: 100%; border-radius: 5px; }
 
-        /* Videos */
-        video { border-radius: 20px; border: 8px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-width: 80%; }
-        
-        .no-btn { position: absolute; }
+        #page4 {
+    background: #000;
+    padding: 0;
+}
+
+#page4 video {
+    width: 100vw;       /* Full width of the viewport */
+    height: 100vh;      /* Full height of the viewport */
+    object-fit: contain; /* Keeps the ratio perfect, adds black bars if needed */
+    border: none;       /* Removes the white border for the final video only */
+    box-shadow: none;   /* Removes the glow for a cinematic feel */
+}
+
+        .btn-style {
+            padding: 12px 25px; border-radius: 10px; border: none;
+            background: white; color: #ff4d6d; font-weight: 600; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
-
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <div id="loading-screen">
+    <div class="loader-container">
+        <div id="progress-bar"></div>
+    </div>
+    <p id="loading-text">Preparing your surprise...</p>
+</div>
     <audio id="bgMusic" loop>
         <source src="{{ url_for('static', filename='bg-music.mp3') }}" type="audio/mpeg">
     </audio>
 
     <section id="page1" class="page">
-        <div class="overlay"></div>
-        <div class="content-box">
-            <h1>Happy Birthday, Gorgeous! 🎂</h1>
-            <p style="color: white; font-size: 1.2rem;">Today is all about you.</p>
-            <button onclick="startExperience()">I have a question... ❤️</button>
-        </div>
+        <h1 style="color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.1);">Happy Birthday, Gorgeous! 🎂</h1>
+        <button class="btn-style" onclick="startExperience()">I have a question... ❤️</button>
     </section>
 
     <section id="page2" class="page">
-        <video width="320" autoplay loop muted>
+        <video width="250" autoplay loop muted playsinline>
             <source src="{{ url_for('static', filename='images/kisses.mp4') }}" type="video/mp4">
         </video>
-        <h1 style="color: var(--accent-red);">Will you be my Valentine?</h1>
-        <div style="margin-top: 20px;">
+        <h1>KEERTHIIIII! MyLOUUUU, will you be my Valentine?(please😞) 💖</h1>
+        <div style="display: flex; gap: 20px; align-items: center; justify-content: center;">
             <button id="yes" onclick="goToYesPage()">Yes</button>
-            <button id="no" onmouseover="moveNo()" class="no-btn">No</button>
+            <button id="no" onmouseover="moveNo()">No</button>
         </div>
     </section>
 
     <section id="page3" class="page">
-        <video width="320" autoplay loop muted>
+        <video width="250" autoplay loop muted>
             <source src="{{ url_for('static', filename='images/kisses1.mp4') }}" type="video/mp4">
         </video>
-        <h1 style="color: var(--accent-red);">HELL YEAH! ❤️</h1>
-        <div class="polaroid-container">
+        <h1>UGHHHHHH I Looveee YOU SOOOOO MUCH BABYYYYY❤️</h1>
+        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
             <div class="polaroid"><img src="{{ url_for('static', filename='images/pic1.jpg') }}"></div>
-            <div class="polaroid alt"><img src="{{ url_for('static', filename='images/pic2.jpg') }}"></div>
+            <div class="polaroid" style="transform: rotate(5deg);"><img src="{{ url_for('static', filename='images/pic2.jpg') }}"></div>
         </div>
-        <button style="margin-top: 30px;" onclick="goToFinalVideo()">Sheri Enna 👋</button>
+        <button class="btn-style" style="border: 2px solid #ff4d6d;" onclick="goToFinalVideo()">Sheri Enna 👋</button>
     </section>
 
-    <section id="page4" class="page" style="background: #000;">
-        <video id="finalVid" width="90%" controls>
-            <source src="{{ url_for('static', filename='images/vid1.mp4') }}" type="video/mp4">
-        </video>
-    </section>
+    <section id="page4" class="page">
+    <video id="finalVid" controls>
+        <source src="{{ url_for('static', filename='images/vid1.mp4') }}" type="video/mp4">
+    </video>
+</section>
 
     <script>
-        // EDIT YOUR MESSAGES HERE:
+window.addEventListener('load', function() {
+    const bar = document.getElementById('progress-bar');
+    const loader = document.getElementById('loading-screen');
+    const text = document.getElementById('loading-text');
+    
+    let width = 0;
+    const interval = setInterval(() => {
+        if (width >= 100) {
+            clearInterval(interval);
+            text.innerText = "Ready for you! ❤️";
+            
+            setTimeout(() => {
+                loader.style.opacity = "0";
+                setTimeout(() => loader.style.display = "none", 1000);
+            }, 500);
+        } else {
+            // Randomly increase width to make it look realistic
+            width += Math.random() * 15;
+            if (width > 100) width = 100;
+            bar.style.width = width + "%";
+        }
+    }, 400); 
+});
+
+        let yesSize = 20;
+
         const messages = [
             "My favorite person ever 🌟",
             "The prettiest girl in Kerala ❤️",
             "Missing you from Dubai ✈️",
             "You're my world 🌎",
-            "Can't wait to see you ⏳",
             "Happy Birthday Gorgeous! 🎂"
         ];
 
-        function createFloatingMsg() {
-            const msg = document.createElement('div');
-            msg.className = 'floating-msg';
-            msg.innerText = messages[Math.floor(Math.random() * messages.length)];
-            msg.style.left = Math.random() * 80 + 10 + "%";
-            msg.style.animationDuration = (Math.random() * 5 + 5) + "s";
-            document.getElementById('page1').appendChild(msg);
-            setTimeout(() => msg.remove(), 8000);
-        }
+        // Keep track of occupied spots
+const occupiedSectors = new Set();
 
-        setInterval(createFloatingMsg, 2000);
+function createFloatingCloud() {
+    const container = document.getElementById('page1');
+    if (container.style.display !== 'none') {
+        
+        const row = Math.floor(Math.random() * 4); // Rows 0, 1, 2, 3
+        const col = Math.floor(Math.random() * 4); // Cols 0, 1, 2, 3
+        const sectorID = `${row}-${col}`;
+
+        // --- NEW: THE NO-FLY ZONE ---
+        // This stops clouds from appearing in the bottom-center 
+        // (Row 2 & 3, Cols 1 & 2) where the button usually sits.
+        if ((row >= 2) && (col === 1 || col === 2)) return;
+
+        if (occupiedSectors.has(sectorID)) return;
+
+        const cloud = document.createElement('div');
+        cloud.className = 'cloud-msg';
+        cloud.innerText = messages[Math.floor(Math.random() * messages.length)];
+        
+        const left = (col * 22) + 5 + (Math.random() * 5); 
+        const top = (row * 20) + 10 + (Math.random() * 5);
+        
+        cloud.style.left = left + "%";
+        cloud.style.top = top + "%";
+        
+        const duration = Math.random() * 3 + 4;
+        cloud.style.animation = `wander ${duration}s ease-in-out infinite`;
+        
+        container.appendChild(cloud);
+        occupiedSectors.add(sectorID);
+
+        setTimeout(() => { cloud.style.opacity = "0.9"; }, 100);
+
+        setTimeout(() => {
+            cloud.style.opacity = "0";
+            setTimeout(() => {
+                cloud.remove();
+                occupiedSectors.delete(sectorID);
+            }, 1000);
+        }, 6000);
+    }
+}
+// This is the line that makes them actually appear!
+setInterval(createFloatingCloud, 3000);
 
         function startExperience() {
-            document.getElementById('bgMusic').play();
-            showPage('page2');
+    // Create a flash element
+    const flash = document.createElement('div');
+    flash.setAttribute("style", "position:fixed; top:0; left:0; width:100vw; height:100vh; background:white; z-index:9999; transition: opacity 0.5s ease-out; pointer-events:none;");
+    document.body.appendChild(flash);
+
+    // Start music
+    document.getElementById('bgMusic').play().catch(e => console.log("Music blocked"));
+
+    // Fade the flash out and switch pages
+    setTimeout(() => {
+        flash.style.opacity = '0';
+        showPage('page2');
+        setTimeout(() => flash.remove(), 500);
+    }, 100);
+}
+
+        function moveNo() {
+            const noBtn = document.getElementById("no");
+            const yesBtn = document.getElementById("yes");
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.position = "fixed";
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+
+            yesSize += 10;
+            yesBtn.style.fontSize = yesSize + "px";
         }
 
         function goToYesPage() {
-            showPage('page3');
-        }
+    showPage('page3');
+
+    // First burst from the left
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { x: 0, y: 0.6 },
+        colors: ['#ff4d6d', '#ffafbd', '#ffffff']
+    });
+
+    // Second burst from the right
+    confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { x: 1, y: 0.6 },
+        colors: ['#ff4d6d', '#ffafbd', '#ffffff']
+    });
+}
 
         function goToFinalVideo() {
             document.getElementById('bgMusic').pause();
@@ -162,17 +348,39 @@
         }
 
         function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+            // Hide all pages
+            document.getElementById('page1').style.display = 'none';
+            document.getElementById('page2').style.display = 'none';
+            document.getElementById('page3').style.display = 'none';
+            document.getElementById('page4').style.display = 'none';
+            // Show requested page
             document.getElementById(pageId).style.display = 'flex';
         }
+document.addEventListener('mousemove', function(e) {
+    const heart = document.createElement('div');
+    heart.innerHTML = '❤️';
+    heart.style.position = 'fixed';
+    heart.style.left = e.clientX + 'px';
+    heart.style.top = e.clientY + 'px';
+    heart.style.fontSize = Math.random() * 10 + 10 + 'px';
+    heart.style.color = '#ff4d6d';
+    heart.style.pointerEvents = 'none';
+    heart.style.zIndex = '9999';
+    heart.style.transition = 'transform 1s ease-out, opacity 1s ease-out';
+    
+    document.body.appendChild(heart);
 
-        function moveNo() {
-            const btn = document.getElementById('no');
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
-        }
+    // Random movement for the hearts
+    setTimeout(() => {
+        heart.style.transform = `translate(${(Math.random() - 0.5) * 100}px, ${(Math.random() - 0.5) * 100}px) rotate(${Math.random() * 360}deg)`;
+        heart.style.opacity = '0';
+    }, 10);
+
+    // Remove heart from DOM after it fades
+    setTimeout(() => {
+        heart.remove();
+    }, 1000);
+});
     </script>
 </body>
 </html>
