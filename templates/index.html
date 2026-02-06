@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Hi ❤️</title>
+    <style>
+body {
+    background: linear-gradient(135deg, #ff9a9e, #fecfef, #ffe6ee);
+    background-size: 400% 400%;
+    animation: gradientMove 10s ease infinite;
+    text-align: center;
+    font-family: 'Poppins', Arial, sans-serif;
+    margin-top: 50px;
+}
+
+@keyframes gradientMove {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+@keyframes yesHeartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); } /* subtle growth */
+}
+
+#buttons-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center; /* center horizontally */
+    align-items: center;     /* vertical alignment */
+    gap: 20px;               /* space between YES and NO */
+    position: relative;       /* for NO positioning before hover */
+}
+
+#yes, #no {
+    font-size: 20px;
+    padding: 10px 25px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+@keyframes yesGrow {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); } /* grows 20% */
+    100% { transform: scale(1); }
+}
+
+#yes {
+    background: #ff4d6d;
+    color: white;
+    font-size: 20px; /* will be overridden by JS */
+    padding: 10px 25px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: font-size 0.2s ease; /* smooth growth */
+    animation: yesHeartbeat 1.5s ease-in-out infinite;
+}
+
+#no {
+    background: gray;
+    color: white;
+    position: relative; /* relative to container initially */
+}
+
+video {
+    display: block;
+    margin: 20px auto;
+    border-radius: 25px;
+    border: 8px solid rgba(255, 204, 230, 0.8); /* soft pink border */
+    box-shadow: 0 0 30px rgba(255, 182, 193, 0.5); /* subtle pink glow */
+}
+
+    </style>
+</head>
+
+<body>
+
+<h1>KEERTHIIIII! MyLOUUUU, will you be my Valentine?(please😞) 💖</h1>
+
+<video id="loveVideo" width="250" autoplay loop muted playsinline>
+    <source src="/static/images/kisses.mp4" type="video/mp4">
+</video>
+
+<div id="buttons-container">
+    <button id="yes" onclick="yesClicked()">Yes</button>
+    <button id="no" onmouseover="moveNo()">No</button>
+</div>
+
+
+
+<script>
+    window.onload = function() {
+        const v = document.getElementById("loveVideo");
+        v.play().catch(() => console.log("Autoplay blocked, muted?"));
+    };
+
+
+    let yesSize = 20; // initial font size in px
+
+function moveNo() {
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    // Move NO randomly across the screen
+    const x = Math.random() * (vw - btnWidth);
+    const y = Math.random() * (vh - btnHeight - 50);
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    // Grow YES button
+    yesSize += 7; // increase font size by 2px each time
+    yesBtn.style.fontSize = yesSize + "px";
+}
+
+
+
+    function yesClicked() {
+    document.body.innerHTML = `
+    <h1>UGHHHHHH  I Looveee YOU SOOOOO MUCH BABYYYYY❤️</h1>
+    <p>You are so PERFECT(ante cutieee).</p>
+    <p>Happy Valentine’s, my love 💕</p>
+    `;
+}
+</script>
+
+</body>
+</html>
