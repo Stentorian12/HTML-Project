@@ -6,7 +6,6 @@
     <title>Hi ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* Keep your existing styles */
         .cloud-msg {
             position: absolute; background: white; padding: 12px 20px; border-radius: 30px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05); color: #ff4d6d; font-weight: 600;
@@ -65,7 +64,7 @@
     </div>
 
     <audio id="bgMusic" loop>
-        <source src="bg-music.mp3" type="audio/mpeg">
+        <source src="../static/bg-music.mp3" type="audio/mpeg">
     </audio>
 
     <section id="page1" class="page">
@@ -75,7 +74,7 @@
 
     <section id="page2" class="page">
         <video width="250" autoplay loop muted playsinline>
-            <source src="images/kisses.mp4" type="video/mp4">
+            <source src="../static/images/kisses.mp4" type="video/mp4">
         </video>
         <h1>KEERTHIIIII! MyLOUUUU, will you be my Valentine?(please😞) 💖</h1>
         <div style="display: flex; gap: 20px; align-items: center; justify-content: center;">
@@ -86,24 +85,23 @@
 
     <section id="page3" class="page">
         <video width="250" autoplay loop muted playsinline>
-            <source src="images/kisses1.mp4" type="video/mp4">
+            <source src="../static/images/kisses1.mp4" type="video/mp4">
         </video>
         <h1>UGHHHHHH I Looveee YOU SOOOOO MUCH BABYYYYY❤️</h1>
         <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-            <div class="polaroid"><img src="images/pic1.jpg"></div>
-            <div class="polaroid" style="transform: rotate(5deg);"><img src="images/pic2.jpg"></div>
+            <div class="polaroid"><img src="../static/images/pic1.jpg"></div>
+            <div class="polaroid" style="transform: rotate(5deg);"><img src="../static/images/pic2.jpg"></div>
         </div>
         <button class="btn-style" style="border: 2px solid #ff4d6d;" onclick="goToFinalVideo()">Sheri Enna 👋</button>
     </section>
 
     <section id="page4" class="page">
         <video id="finalVid" controls playsinline>
-            <source src="images/vid1.mp4" type="video/mp4">
+            <source src="../static/images/vid1.mp4" type="video/mp4">
         </video>
     </section>
 
     <script>
-        // Keep all your original logic
         window.addEventListener('load', function() {
             const bar = document.getElementById('progress-bar');
             const loader = document.getElementById('loading-screen');
@@ -191,7 +189,6 @@
             document.getElementById(pageId).style.display = 'flex';
         }
 
-        // Heart trail
         document.addEventListener('touchstart', function(e) {
             const heart = document.createElement('div');
             heart.innerHTML = '❤️';
