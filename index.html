@@ -60,24 +60,37 @@
         .page { display: none; width: 100%; height: 100vh; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         #page1 { display: flex; }
 
-        .main-card {
-            background: #fdfaf0; 
-            padding: 20px 15px; /* Slightly less padding to give text room */
-            border-radius: 5px;
-            z-index: 100; 
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            width: 90%; /* Increased from 85% */
-            max-width: 360px;
-            box-sizing: border-box; /* Ensures padding doesn't push width out */
-            overflow: hidden; /* Keeps everything contained */
-        }
+.main-card {
+    background: #fdfaf0; 
+    padding: 15px; /* Tighten internal padding */
+    border-radius: 5px;
+    z-index: 100; 
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 90%; 
+    max-width: 340px;
+    display: flex; /* Helps align video and text vertically */
+    flex-direction: column;
+    justify-content: center;
+}
 
-        .ransom span {
-            display: inline-block; padding: 3px 6px; margin: 1px;
-            background: white; box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-            font-family: 'Special Elite', cursive; font-size: 1.3rem; color: #333;
-        }
+.ransom {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 1px;
+    margin: 5px 0; /* Reduced margin */
+}
+
+.ransom span {
+    display: inline-block; 
+    padding: 1px 3px; /* Extra tight for long words */
+    margin: 1px;
+    background: white; 
+    font-family: 'Special Elite', cursive; 
+    font-size: 0.95rem; /* Slightly smaller for Keerthi's name */
+    color: #333;
+}
         .emoji-span { font-family: sans-serif !important; display: inline-block; vertical-align: middle; }
 
         .btn-container { display: flex; gap: 20px; justify-content: center; margin-top: 20px; min-height: 50px; }
@@ -90,7 +103,14 @@
         #yes { background: #ff4d6d; color: white; }
         #no { background: #8e8e8e; color: white; position: relative; }
 
-        video { width: 100%; border-radius: 10px; margin-bottom: 10px; border: 4px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        video { 
+            width: 65%; /* Shrink from 100% to 65% */
+            border-radius: 10px; 
+            margin: 0 auto 10px auto; /* Centers it and adds bottom gap */
+            display: block;
+            border: 3px solid white; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        }
         .polaroid-inline { background: white; padding: 5px 5px 15px; width: 100px; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
     </style>
 </head>
@@ -246,5 +266,6 @@
     </script>
 </body>
 </html>
+
 
 
