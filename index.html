@@ -6,25 +6,30 @@
     <title>Hi ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* THE NEW DESIGN: GRADIENT + FROSTED GLASS */
+        /* --- SCRAPBOOK BASE SETUP --- */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #ff9a9e, #fecfef, #ffe6ee);
-            background-size: 400% 400%; animation: gradientMove 10s ease infinite;
+            background: url('static/mosaic-bg.jpg') no-repeat center center fixed;
+            background-size: cover;
             overflow: hidden; touch-action: manipulation;
         }
 
-        @keyframes gradientMove { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
+        /* The "Dotted Paper" overlay from your code */
+        body::after {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(circle, white 1px, transparent 1px);
+            background-size: 50px 50px; opacity: 0.2; pointer-events: none; z-index: 1;
+        }
 
-        /* THE CLOUD LOOK */
+        /* --- THE CLOUD LOOK (FROSTED GLASS) --- */
         .cloud-msg {
             position: absolute; padding: 12px 20px; border-radius: 30px;
-            background: rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.45) !important;
             backdrop-filter: blur(15px) saturate(180%);
             -webkit-backdrop-filter: blur(15px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.5);
-            color: #ff4d6d; font-weight: 600; font-size: 0.85rem; z-index: 5;
+            color: #ff4d6d; font-weight: 600; font-size: 0.85rem; z-index: 1000;
             pointer-events: none; opacity: 0; transition: opacity 1s ease;
         }
         .cloud-msg::before, .cloud-msg::after { content: ''; position: absolute; background: inherit; border-radius: 50%; z-index: -1; }
@@ -38,57 +43,92 @@
             100% { transform: translate(0, 0); }
         }
 
-        /* UI ELEMENTS */
+        /* --- SCATTERED POLAROIDS --- */
+        .polaroid-scatter {
+            position: absolute; background: rgba(255, 255, 255, 0.8);
+            padding: 8px 8px 20px 8px; width: 100px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 2;
+            backdrop-filter: blur(5px);
+        }
+        .polaroid-scatter img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 2px; }
+
+        #p1 { top: 5%; left: 5%; transform: rotate(-10deg); }
+        #p2 { top: 15%; right: 5%; transform: rotate(15deg); }
+        #p3 { bottom: 10%; left: 8%; transform: rotate(-5deg); }
+        #p4 { bottom: 15%; right: 5%; transform: rotate(12deg); }
+        #p5 { top: 40%; left: 2%; transform: rotate(-15deg); }
+        #p6 { top: 50%; right: 2%; transform: rotate(8deg); }
+        #p7 { top: 2%; left: 45%; transform: rotate(5deg); }
+        #p8 { bottom: 5%; left: 40%; transform: rotate(-8deg); }
+
+        /* --- UI ELEMENTS --- */
         .page { display: none; width: 100%; height: 100vh; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         #page1 { display: flex; }
         
-        .btn-style { 
-            background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5); color: #ff4d6d;
-            padding: 14px 28px; border-radius: 15px; font-weight: 600; cursor: pointer;
+        .main-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 30px; border-radius: 25px;
+            z-index: 100; position: relative;
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            width: 85%; max-width: 400px;
         }
 
-        #yes { background: #ff4d6d; color: white; border: none; font-weight: 600; padding: 12px 25px; border-radius: 12px; }
-        #no { background: #8e8e8e; color: white; border: none; font-weight: 600; padding: 12px 25px; border-radius: 12px; position: relative; z-index: 1000; }
+        h1 { color: #ff4d6d; text-shadow: 1px 1px 5px rgba(255,255,255,0.5); }
+        button { font-family: 'Poppins', sans-serif; font-weight: 600; padding: 12px 25px; border-radius: 12px; border: none; cursor: pointer; }
+        #yes { background: #ff4d6d; color: white; }
+        #no { background: #8e8e8e; color: white; position: relative; z-index: 10001; }
 
-        /* LOADING */
-        #loading-screen { position: fixed; inset: 0; background: #ffe6ee; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
-        .loader-container { width: 220px; height: 8px; background: rgba(255, 255, 255, 0.5); border-radius: 10px; overflow: hidden; }
-        #progress-bar { width: 0%; height: 100%; background: #ff4d6d; transition: width 0.3s; }
+        /* --- LOADING --- */
+        #loading-screen { position: fixed; inset: 0; background: #ffe6ee; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100000; }
+        .loader-bar { width: 200px; height: 8px; background: rgba(255,255,255,0.5); border-radius: 10px; overflow: hidden; margin-top: 15px; }
+        #progress { width: 0%; height: 100%; background: #ff4d6d; transition: width 0.3s; }
 
-        .heart-trail { position: fixed; font-size: 22px; pointer-events: none; z-index: 99999; transition: transform 1s, opacity 1s; }
-        video { border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        video { border-radius: 15px; margin-bottom: 15px; max-width: 90%; }
+        .heart-trail { position: fixed; font-size: 22px; pointer-events: none; z-index: 99999; transition: transform 1.2s, opacity 1.2s; }
     </style>
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <div id="loading-screen">
-        <div class="loader-container"><div id="progress-bar"></div></div>
-        <p style="color: #ff4d6d; margin-top: 15px; font-weight: 600;">Building something special...</p>
+        <p style="color:#ff4d6d; font-weight:600;">Opening the scrapbook...</p>
+        <div class="loader-bar"><div id="progress"></div></div>
     </div>
 
     <audio id="bgMusic" loop><source src="static/bg-music.mp3" type="audio/mpeg"></audio>
 
     <section id="page1" class="page">
-        <h1 style="color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.15); font-size: 2rem; margin-bottom: 30px;">Happy Birthday, Gorgeous! 🎂</h1>
-        <button class="btn-style" onclick="startExperience()">Oru question... ❤️</button>
+        <div class="polaroid-scatter" id="p1"><img src="static/images/wish1.jpg"></div>
+        <div class="polaroid-scatter" id="p2"><img src="static/images/wish2.jpg"></div>
+        <div class="polaroid-scatter" id="p3"><img src="static/images/wish3.jpg"></div>
+        <div class="polaroid-scatter" id="p4"><img src="static/images/wish4.jpg"></div>
+        <div class="polaroid-scatter" id="p5"><img src="static/images/wish5.jpg"></div>
+        <div class="polaroid-scatter" id="p6"><img src="static/images/wish6.jpg"></div>
+        <div class="polaroid-scatter" id="p7"><img src="static/images/wish7.jpg"></div>
+        <div class="polaroid-scatter" id="p8"><img src="static/images/wish8.jpg"></div>
+
+        <div class="main-card">
+            <h1>Happy Birthday, Gorgeous! 🎂</h1>
+            <button style="background:#ff4d6d; color:white;" onclick="startExperience()">Oru question... ❤️</button>
+        </div>
     </section>
 
     <section id="page2" class="page">
         <video width="250" autoplay loop muted playsinline><source src="static/images/kisses.mp4" type="video/mp4"></video>
-        <h1 style="color: #ff4d6d; padding: 0 20px;">KEERTHIIIII! Will you be my Valentine? 💖</h1>
-        <div style="display: flex; gap: 20px; align-items: center; justify-content: center; min-height: 150px; position: relative; width: 100%;">
-            <button id="yes" onclick="goToYesPage()">Yes</button>
-            <button id="no" onmouseover="moveNo(event)" onclick="moveNo(event)">No</button>
+        <div class="main-card">
+            <h1>KEERTHIIIII! Will you be my Valentine? 💖</h1>
+            <div style="display: flex; gap: 20px; justify-content: center; align-items: center; min-height: 100px;">
+                <button id="yes" onclick="goToYesPage()">Yes</button>
+                <button id="no" onmouseover="moveNo(event)" onclick="moveNo(event)">No</button>
+            </div>
         </div>
     </section>
 
     <section id="page3" class="page">
         <video width="250" autoplay loop muted playsinline><source src="static/images/kisses1.mp4" type="video/mp4"></video>
-        <h1 style="color: #ff4d6d;">I Looveee YOU SOOO MUCH BABYYYYY❤️</h1>
-        <button class="btn-style" style="margin-top: 20px;" onclick="goToFinalVideo()">Sheri Enna 👋</button>
+        <h1 style="color:white; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">UGHHHHHH I Looveee YOU SOOOOO MUCH BABYYYYY❤️</h1>
+        <button style="background: white; color: #ff4d6d; border: 2px solid #ff4d6d;" onclick="goToFinalVideo()">Sheri Enna 👋</button>
     </section>
 
     <section id="page4" class="page" style="background:#000;">
@@ -99,21 +139,20 @@
 
     <script>
         const messages = [
-            "My favorite person ever 🌟", "The prettiest girl ❤️", "I Miss my Baby SO MUCH😘", 
-            "ANTE MUTH, ANTE CUTIE PIE✨", "Happy Birthday My Whole life🤞🏽🎂", "Ante Baby is ALL I THINK ABOUT💭", 
-            "You make my days HAPPIER😊", "I belong to you AND ONLY YOU ❤️", "BAAAAAAABBBBBYYYYYYYYYYYYYYYY", 
-            "The most beautiful EYES 😍", "love you to the MOON and BACK!!🌎"
+            "My favorite person ever 🌟", "The prettiest girl ❤️", "ANTE MUTH, ANTE CUTIE PIE✨", 
+            "Happy Birthday My Whole life🤞🏽🎂", "BAAAAAAABBBBBYYYYYYYYYYYYYYYY", 
+            "love you to the MOON and BACK!!🌎", "I Miss my Baby SO MUCH😘"
         ];
 
-        let pageOneActive = true;
+        let isPage1 = true;
         const occupiedSectors = new Set();
 
-        // THE CLOUD ENGINE
+        // --- CLOUD ENGINE (Restored) ---
         function spawnCloudBurst() {
-            if (!pageOneActive) return;
+            if (!isPage1) return;
             let shuffled = [...messages].sort(() => 0.5 - Math.random());
             for(let i = 0; i < 3; i++) { 
-                setTimeout(() => createFloatingCloud(shuffled[i]), i * 600); 
+                setTimeout(() => createFloatingCloud(shuffled[i]), i * 500); 
             }
         }
 
@@ -143,12 +182,12 @@
             }, 5000);
         }
 
-        // LOADING LOGIC
+        // --- LOADING ---
         window.addEventListener('load', () => {
-            const bar = document.getElementById('progress-bar');
+            const bar = document.getElementById('progress');
             let w = 0;
             const int = setInterval(() => {
-                w += Math.random() * 15;
+                w += Math.random() * 20;
                 if(w >= 100) {
                     clearInterval(int);
                     bar.style.width = "100%";
@@ -158,34 +197,26 @@
                         spawnCloudBurst();
                     }, 500);
                 } else { bar.style.width = w + "%"; }
-            }, 250);
+            }, 300);
         });
 
-        // NAVIGATION
-        function startExperience() { 
-            pageOneActive = false; 
-            document.querySelectorAll('.cloud-msg').forEach(c => c.remove());
-            document.getElementById('bgMusic').play(); 
-            showPage('page2'); 
-        }
+        // --- LOGIC ---
+        function startExperience() { isPage1 = false; document.getElementById('bgMusic').play(); showPage('page2'); }
         function goToYesPage() { showPage('page3'); confetti({ particleCount: 150, spread: 70 }); }
         function goToFinalVideo() { document.getElementById('bgMusic').pause(); showPage('page4'); document.getElementById('finalVid').play(); }
         function showPage(id) { document.querySelectorAll('.page').forEach(p => p.style.display = 'none'); document.getElementById(id).style.display = 'flex'; }
 
-        // NO BUTTON LOGIC
-        let yesSize = 18;
+        let ySize = 1;
         function moveNo(e) {
             const no = document.getElementById("no");
             const yes = document.getElementById("yes");
             no.style.position = "fixed";
             no.style.left = (Math.random() * (window.innerWidth - 100)) + "px";
             no.style.top = (Math.random() * (window.innerHeight - 50)) + "px";
-            yesSize += 8;
-            yes.style.fontSize = yesSize + "px";
-            yes.style.padding = (yesSize/2) + "px " + yesSize + "px";
+            ySize += 0.2;
+            yes.style.transform = `scale(${ySize})`;
         }
 
-        // HEART TRAIL
         document.addEventListener('mousemove', (e) => {
             const h = document.createElement('div');
             h.className = 'heart-trail'; h.innerHTML = '❤️';
