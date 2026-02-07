@@ -6,34 +6,28 @@
     <title>Hi ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* Base Styles */
+        /* Base Setup */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Poppins', Arial, sans-serif;
             background: linear-gradient(135deg, #ff9a9e, #fecfef, #ffe6ee);
             background-size: 400% 400%; animation: gradientMove 10s ease infinite;
-            overflow: hidden;
+            overflow: hidden; touch-action: manipulation;
         }
 
         @keyframes gradientMove { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
 
-        /* Premium Sparkle Background - Stays behind everything */
+        /* Sparkling Background Dots */
         body::after {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: radial-gradient(circle, white 1px, transparent 1px);
-            background-size: 50px 50px;
-            opacity: 0.2;
-            pointer-events: none;
-            z-index: -1; 
+            background-size: 50px 50px; opacity: 0.2; pointer-events: none; z-index: -1;
         }
 
         /* Frosted Glass UI Components */
         .cloud-msg, .btn-style, .polaroid {
             background: rgba(255, 255, 255, 0.7) !important;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
@@ -44,6 +38,10 @@
             display: flex; align-items: center; justify-content: center; transition: opacity 1s ease;
         }
 
+        .cloud-msg::before, .cloud-msg::after { content: ''; position: absolute; background: inherit; border-radius: 50%; z-index: -1; }
+        .cloud-msg::before { width: 20px; height: 20px; top: -10px; left: 15px; }
+        .cloud-msg::after { width: 15px; height: 15px; top: -7px; right: 15px; }
+
         @keyframes wander {
             0% { transform: translate(0, 0); }
             33% { transform: translate(15px, -10px); }
@@ -51,43 +49,34 @@
             100% { transform: translate(0, 0); }
         }
 
-        .cloud-msg::before, .cloud-msg::after { content: ''; position: absolute; background: inherit; border-radius: 50%; z-index: -1; }
-        .cloud-msg::before { width: 20px; height: 20px; top: -10px; left: 15px; }
-        .cloud-msg::after { width: 15px; height: 15px; top: -7px; right: 15px; }
-        
         /* Loading Screen */
         #loading-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #ffe6ee; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
         .loader-container { width: 250px; height: 10px; background: rgba(255, 255, 255, 0.5); border-radius: 20px; overflow: hidden; }
         #progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #ff4d6d, #ff8fa3); transition: width 0.4s ease; }
         #loading-text { margin-top: 15px; color: #ff4d6d; font-size: 0.9rem; font-weight: 600; }
 
-        /* Page Layouts */
+        /* Pages */
         .page { display: none; width: 100%; height: 100vh; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         #page1 { display: flex; }
-        h1 { font-weight: 600; color: #ff4d6d; margin: 20px; font-size: 1.5rem; padding: 0 10px; z-index: 10; }
+        h1 { font-weight: 600; color: #ff4d6d; margin: 20px; font-size: 1.5rem; padding: 0 10px; z-index: 10; position: relative; }
 
-        /* Buttons */
-        #yes { background: #ff4d6d; color: white; padding: 10px 25px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; animation: yesHeartbeat 1.5s ease-in-out infinite; z-index: 50; }
+        #yes { background: #ff4d6d; color: white; padding: 10px 25px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; animation: yesHeartbeat 1.5s ease-in-out infinite; z-index: 50; transition: all 0.2s ease; }
         @keyframes yesHeartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         
-        #no { background: gray; color: white; padding: 10px 25px; border-radius: 10px; border: none; cursor: pointer; z-index: 1000; position: relative; -webkit-tap-highlight-color: transparent; }
+        #no { background: gray; color: white; padding: 10px 25px; border-radius: 10px; border: none; cursor: pointer; z-index: 1000; position: relative; }
 
         .btn-style { padding: 12px 25px; border-radius: 10px; border: none; color: #ff4d6d; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 100; }
-
-        /* Polaroid & Media */
+        
         .polaroid { padding: 10px 10px 30px; width: 130px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: rotate(-3deg); margin: 5px; }
         .polaroid img { width: 100%; border-radius: 5px; display: block; }
+
         video { border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         #page4 { background: #000; }
         #page4 video { width: 100vw; height: 100vh; object-fit: contain; }
 
-        /* Heart Trail Fix - High z-index */
+        /* Smooth Heart Trail */
         .heart-trail {
-            position: fixed;
-            font-size: 22px;
-            pointer-events: none;
-            z-index: 99999 !important;
-            /* This timing makes the hearts 'float' smoothly rather than just appearing */
+            position: fixed; font-size: 22px; pointer-events: none; z-index: 99999 !important;
             transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.5, 1), opacity 1.2s ease-out;
             user-select: none;
         }
@@ -117,7 +106,7 @@
         <h1>KEERTHIIIII! MyLOUUUU, will you be my Valentine?(please😞) 💖</h1>
         <div style="display: flex; gap: 20px; align-items: center; justify-content: center; position: relative; width: 100%; height: 200px;">
             <button id="yes" onclick="goToYesPage()">Yes</button>
-            <button id="no" onclick="moveNo(event)">No</button>
+            <button id="no" onmouseover="moveNo(event)" onclick="moveNo(event)">No</button>
         </div>
     </section>
 
@@ -140,16 +129,14 @@
     </section>
 
     <script>
-        // Loading Logic
+        // --- 1. LOADING LOGIC ---
         window.addEventListener('load', function() {
             const bar = document.getElementById('progress-bar');
             const loader = document.getElementById('loading-screen');
-            const text = document.getElementById('loading-text');
             let width = 0;
             const interval = setInterval(() => {
                 if (width >= 100) {
                     clearInterval(interval);
-                    text.innerText = "Ready for you! ❤️";
                     setTimeout(() => {
                         loader.style.opacity = "0";
                         setTimeout(() => loader.style.display = "none", 1000);
@@ -162,54 +149,64 @@
             }, 400); 
         });
 
-        // Floating Clouds
+        // --- 2. MULTI-CLOUD LOGIC ---
         const messages = ["My favorite person ever 🌟", "The prettiest girl ❤️", "I Miss my Baby SO MUCH😘", "ANTE MUTH, ANTE CUTIE PIE✨", "Happy Birthday My Whole life🤞🏽🎂"];
         const occupiedSectors = new Set();
 
-        function createFloatingCloud() {
-            const container = document.getElementById('page1');
-            if (container.style.display !== 'none') {
-                const row = Math.floor(Math.random() * 4);
-                const col = Math.floor(Math.random() * 4);
-                const sectorID = `${row}-${col}`;
-                if ((row >= 2) && (col === 1 || col === 2)) return;
-                if (occupiedSectors.has(sectorID)) return;
-
-                const cloud = document.createElement('div');
-                cloud.className = 'cloud-msg';
-                cloud.innerText = messages[Math.floor(Math.random() * messages.length)];
-                cloud.style.left = (col * 22) + 5 + (Math.random() * 5) + "%";
-                cloud.style.top = (row * 20) + 10 + (Math.random() * 5) + "%";
-                cloud.style.animation = `wander ${Math.random() * 3 + 4}s ease-in-out infinite`;
-                container.appendChild(cloud);
-                occupiedSectors.add(sectorID);
-                setTimeout(() => { cloud.style.opacity = "0.9"; }, 100);
-                setTimeout(() => {
-                    cloud.style.opacity = "0";
-                    setTimeout(() => { cloud.remove(); occupiedSectors.delete(sectorID); }, 1000);
-                }, 6000);
+        function spawnCloudBurst() {
+            if (document.getElementById('page1').style.display !== 'none') {
+                for(let i = 0; i < 3; i++) { setTimeout(createFloatingCloud, i * 300); }
             }
         }
-        setInterval(createFloatingCloud, 3000);
 
-        // Interaction Logic
-        function startExperience() {
-            document.getElementById('bgMusic').play().catch(e => console.log("Music blocked"));
-            showPage('page2');
+        function createFloatingCloud() {
+            const container = document.getElementById('page1');
+            const row = Math.floor(Math.random() * 5);
+            const col = Math.floor(Math.random() * 5);
+            const sectorID = `${row}-${col}`;
+            if (occupiedSectors.has(sectorID)) return;
+
+            const cloud = document.createElement('div');
+            cloud.className = 'cloud-msg';
+            cloud.innerText = messages[Math.floor(Math.random() * messages.length)];
+            cloud.style.left = (col * 18) + (Math.random() * 10) + "%";
+            cloud.style.top = (row * 18) + (Math.random() * 10) + "%";
+            cloud.style.animation = `wander ${Math.random() * 3 + 4}s ease-in-out infinite`;
+            
+            container.appendChild(cloud);
+            occupiedSectors.add(sectorID);
+            
+            setTimeout(() => { cloud.style.opacity = "0.9"; }, 100);
+            setTimeout(() => {
+                cloud.style.opacity = "0";
+                setTimeout(() => { cloud.remove(); occupiedSectors.delete(sectorID); }, 1000);
+            }, 5000);
         }
+        setInterval(spawnCloudBurst, 3000);
 
+        // --- 3. NO BUTTON LOGIC ---
         let yesSize = 20;
         function moveNo(e) {
-            if(e) { e.stopPropagation(); e.preventDefault(); }
+            if(e) { e.stopPropagation(); }
             const noBtn = document.getElementById("no");
             const yesBtn = document.getElementById("yes");
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 40) + 20;
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 40) + 20;
+            
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 60) + 30;
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 60) + 30;
+            
             noBtn.style.position = "fixed";
             noBtn.style.left = x + "px";
             noBtn.style.top = y + "px";
-            yesSize += 12;
+
+            yesSize += 10;
             yesBtn.style.fontSize = yesSize + "px";
+            yesBtn.style.padding = (yesSize/2) + "px " + yesSize + "px";
+        }
+
+        // --- 4. NAVIGATION ---
+        function startExperience() {
+            document.getElementById('bgMusic').play().catch(() => {});
+            showPage('page2');
         }
 
         function goToYesPage() {
@@ -224,24 +221,16 @@
         }
 
         function showPage(pageId) {
-            document.getElementById('page1').style.display = 'none';
-            document.getElementById('page2').style.display = 'none';
-            document.getElementById('page3').style.display = 'none';
-            document.getElementById('page4').style.display = 'none';
+            ['page1', 'page2', 'page3', 'page4'].forEach(id => document.getElementById(id).style.display = 'none');
             document.getElementById(pageId).style.display = 'flex';
         }
 
-        let lastX = 0;
-let lastY = 0;
-
+        // --- 5. SMOOTH HEART TRAIL LOGIC ---
+        let lastX = 0, lastY = 0;
         function spawnHeart(x, y) {
-            // Only spawn if the mouse/finger moved at least 15 pixels
-            // This creates a smooth trail instead of a cluttered mess
             const distance = Math.hypot(x - lastX, y - lastY);
-        if (distance < 15) return;
-    
-            lastX = x;
-            lastY = y;
+            if (distance < 15) return;
+            lastX = x; lastY = y;
 
             const heart = document.createElement('div');
             heart.className = 'heart-trail';
@@ -249,27 +238,17 @@ let lastY = 0;
             heart.style.left = x + 'px';
             heart.style.top = y + 'px';
             document.body.appendChild(heart);
-    
-            // Random drift so they don't all fly in a straight line
+            
             const drift = (Math.random() - 0.5) * 150;
-    
             setTimeout(() => {
-                // This makes them float up, grow slightly, and rotate
                 heart.style.transform = `translate(${drift}px, -120px) scale(1.8) rotate(${drift/5}deg)`;
                 heart.style.opacity = '0';
             }, 20);
-    
-            // Remove from memory after animation finishes
             setTimeout(() => heart.remove(), 1200);
         }
 
-        // PC Smooth Movement
         document.addEventListener('mousemove', (e) => spawnHeart(e.clientX, e.clientY));
-
-        // Mobile Smooth Movement (Dragging finger)
         document.addEventListener('touchmove', (e) => spawnHeart(e.touches[0].clientX, e.touches[0].clientY));
-
-        // Mobile Single Tap
         document.addEventListener('touchstart', (e) => spawnHeart(e.touches[0].clientX, e.touches[0].clientY));
     </script>
 </body>
