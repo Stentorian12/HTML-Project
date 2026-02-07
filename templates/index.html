@@ -84,10 +84,12 @@
         /* Heart Trail Fix - High z-index */
         .heart-trail {
             position: fixed;
-            font-size: 20px;
+            font-size: 22px;
             pointer-events: none;
             z-index: 99999 !important;
-            transition: transform 1s, opacity 1s;
+            /* This timing makes the hearts 'float' smoothly rather than just appearing */
+            transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.5, 1), opacity 1.2s ease-out;
+            user-select: none;
         }
     </style>
 </head>
@@ -229,28 +231,46 @@
             document.getElementById(pageId).style.display = 'flex';
         }
 
-        // Heart Trail (Integrated PC & Mobile)
+        let lastX = 0;
+let lastY = 0;
+
         function spawnHeart(x, y) {
+            // Only spawn if the mouse/finger moved at least 15 pixels
+            // This creates a smooth trail instead of a cluttered mess
+            const distance = Math.hypot(x - lastX, y - lastY);
+        if (distance < 15) return;
+    
+            lastX = x;
+            lastY = y;
+
             const heart = document.createElement('div');
             heart.className = 'heart-trail';
             heart.innerHTML = '❤️';
             heart.style.left = x + 'px';
             heart.style.top = y + 'px';
             document.body.appendChild(heart);
+    
+            // Random drift so they don't all fly in a straight line
+            const drift = (Math.random() - 0.5) * 150;
+    
             setTimeout(() => {
-                heart.style.transform = `translate(${(Math.random()-0.5)*100}px, -100px) scale(1.5)`;
+                // This makes them float up, grow slightly, and rotate
+                heart.style.transform = `translate(${drift}px, -120px) scale(1.8) rotate(${drift/5}deg)`;
                 heart.style.opacity = '0';
-            }, 10);
-            setTimeout(() => heart.remove(), 1000);
+            }, 20);
+    
+            // Remove from memory after animation finishes
+            setTimeout(() => heart.remove(), 1200);
         }
 
-        // Touch for Mobile
+        // PC Smooth Movement
+        document.addEventListener('mousemove', (e) => spawnHeart(e.clientX, e.clientY));
+
+        // Mobile Smooth Movement (Dragging finger)
+        document.addEventListener('touchmove', (e) => spawnHeart(e.touches[0].clientX, e.touches[0].clientY));
+
+        // Mobile Single Tap
         document.addEventListener('touchstart', (e) => spawnHeart(e.touches[0].clientX, e.touches[0].clientY));
-        
-        // Mouse for PC
-        document.addEventListener('mousemove', (e) => {
-            if (Math.random() > 0.9) spawnHeart(e.clientX, e.clientY);
-        });
     </script>
 </body>
 </html>
