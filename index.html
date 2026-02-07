@@ -61,10 +61,16 @@
         #page1 { display: flex; }
 
         .main-card {
-            background: #fdfaf0; padding: 25px; border-radius: 5px;
-            z-index: 100; position: relative;
+            background: #fdfaf0; 
+            padding: 20px 15px; /* Slightly less padding to give text room */
+            border-radius: 5px;
+            z-index: 100; 
+            position: relative;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            width: 85%; max-width: 360px;
+            width: 90%; /* Increased from 85% */
+            max-width: 360px;
+            box-sizing: border-box; /* Ensures padding doesn't push width out */
+            overflow: hidden; /* Keeps everything contained */
         }
 
         .ransom span {
@@ -240,4 +246,5 @@
     </script>
 </body>
 </html>
+
 
