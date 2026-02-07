@@ -74,7 +74,6 @@
         #page4 { background: #000; }
         #page4 video { width: 100vw; height: 100vh; object-fit: contain; }
 
-        /* Smooth Heart Trail */
         .heart-trail {
             position: fixed; font-size: 22px; pointer-events: none; z-index: 99999 !important;
             transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.5, 1), opacity 1.2s ease-out;
@@ -149,63 +148,60 @@
             }, 400); 
         });
 
-        // --- 1. EXPANDED MESSAGE LIBRARY ---
-const messages = [
-    "My favorite person ever 🌟", "The prettiest girl ❤️", "I Miss my Baby SO MUCH😘", 
-    "ANTE MUTH, ANTE CUTIE PIE✨", "Happy Birthday My Whole life🤞🏽🎂", "Ante Baby is ALL I THINK ABOUT💭", 
-    "You make my days HAPPIER😊", "I belongs to you AND ONLY YOU ❤️", "BAAAAAAABBBBBYYYYYYYYYYYYYYYY", 
-    "The most beautiful EYES 😍", "I'm so lucky to EXIST with you in my life 🍀", "love you to the MOON and BACK!!🌎", 
-    "You are so PERFECT without even tryin✨", "Sending you all my love 💌", "You're the best part of my day 💖", 
-    "My soulmate 👩‍❤️‍👨", "LOVE LOVE LOVE LOVE LOVE LOVE LOVE!!XOXO ✨",
-    "Kisses and hugs! 💋", "I wanna see you so bad"
-];
+        // --- 2. MESSAGE LIBRARY & CLOUD BURST ---
+        const messages = [
+            "My favorite person ever 🌟", "The prettiest girl ❤️", "I Miss my Baby SO MUCH😘", 
+            "ANTE MUTH, ANTE CUTIE PIE✨", "Happy Birthday My Whole life🤞🏽🎂", "Ante Baby is ALL I THINK ABOUT💭", 
+            "You make my days HAPPIER😊", "I belong to you AND ONLY YOU ❤️", "BAAAAAAABBBBBYYYYYYYYYYYYYYYY", 
+            "The most beautiful EYES 😍", "I'm so lucky to EXIST with you in my life 🍀", "love you to the MOON and BACK!!🌎", 
+            "You are so PERFECT without even tryin✨", "Sending you all my love 💌", "You're the best part of my day 💖", 
+            "My soulmate 👩‍❤️‍👨", "LOVE LOVE LOVE LOVE LOVE LOVE LOVE!!XOXO ✨",
+            "Kisses and hugs! 💋", "I wanna see you so bad"
+        ];
 
-const occupiedSectors = new Set();
+        const occupiedSectors = new Set();
 
-// --- 2. UNIQUE CLOUD BURST LOGIC ---
-function spawnCloudBurst() {
-    if (document.getElementById('page1').style.display !== 'none') {
-        // Create a copy of the messages and shuffle it for this burst
-        let shuffled = [...messages].sort(() => 0.5 - Math.random());
-        
-        for(let i = 0; i < 4; i++) { 
-            // Pass a unique message from the shuffled list to each cloud
-            setTimeout(() => createFloatingCloud(shuffled[i]), i * 300); 
+        function spawnCloudBurst() {
+            // Only spawn if we are on Page 1
+            if (document.getElementById('page1').style.display === 'flex') {
+                let shuffled = [...messages].sort(() => 0.5 - Math.random());
+                for(let i = 0; i < 4; i++) { 
+                    setTimeout(() => createFloatingCloud(shuffled[i]), i * 300); 
+                }
+            }
         }
-    }
-}
 
-function createFloatingCloud(specificMessage) {
-    const container = document.getElementById('page1');
-    const row = Math.floor(Math.random() * 5);
-    const col = Math.floor(Math.random() * 5);
-    const sectorID = `${row}-${col}`;
-    
-    // Don't spawn if sector is full
-    if (occupiedSectors.has(sectorID)) return;
+        function createFloatingCloud(specificMessage) {
+            const container = document.getElementById('page1');
+            const row = Math.floor(Math.random() * 5);
+            const col = Math.floor(Math.random() * 5);
+            const sectorID = `${row}-${col}`;
+            
+            if (occupiedSectors.has(sectorID)) return;
 
-    const cloud = document.createElement('div');
-    cloud.className = 'cloud-msg';
-    
-    // Use the unique message passed from the burst
-    cloud.innerText = specificMessage || messages[Math.floor(Math.random() * messages.length)];
-    
-    cloud.style.left = (col * 18) + (Math.random() * 10) + "%";
-    cloud.style.top = (row * 18) + (Math.random() * 10) + "%";
-    cloud.style.animation = `wander ${Math.random() * 3 + 4}s ease-in-out infinite`;
-    
-    container.appendChild(cloud);
-    occupiedSectors.add(sectorID);
-    
-    setTimeout(() => { cloud.style.opacity = "0.9"; }, 100);
-    setTimeout(() => {
-        cloud.style.opacity = "0";
-        setTimeout(() => { 
-            cloud.remove(); 
-            occupiedSectors.delete(sectorID); 
-        }, 1000);
-    }, 5000);
-}
+            const cloud = document.createElement('div');
+            cloud.className = 'cloud-msg';
+            cloud.innerText = specificMessage || messages[0];
+            
+            cloud.style.left = (col * 18) + (Math.random() * 10) + "%";
+            cloud.style.top = (row * 18) + (Math.random() * 10) + "%";
+            cloud.style.animation = `wander ${Math.random() * 3 + 4}s ease-in-out infinite`;
+            
+            container.appendChild(cloud);
+            occupiedSectors.add(sectorID);
+            
+            setTimeout(() => { cloud.style.opacity = "0.9"; }, 100);
+            setTimeout(() => {
+                cloud.style.opacity = "0";
+                setTimeout(() => { 
+                    cloud.remove(); 
+                    occupiedSectors.delete(sectorID); 
+                }, 1000);
+            }, 5000);
+        }
+
+        // START THE CLOUD TIMER
+        setInterval(spawnCloudBurst, 3000);
 
         // --- 3. NO BUTTON LOGIC ---
         let yesSize = 20;
@@ -244,7 +240,8 @@ function createFloatingCloud(specificMessage) {
         }
 
         function showPage(pageId) {
-            ['page1', 'page2', 'page3', 'page4'].forEach(id => document.getElementById(id).style.display = 'none');
+            const pages = ['page1', 'page2', 'page3', 'page4'];
+            pages.forEach(id => document.getElementById(id).style.display = 'none');
             document.getElementById(pageId).style.display = 'flex';
         }
 
