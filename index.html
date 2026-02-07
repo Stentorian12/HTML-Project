@@ -3,93 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Hi ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Special+Elite&display=swap" rel="stylesheet">
+    <title>For My Favorite ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Poppins:wght@600&display=swap" rel="stylesheet">
     <style>
-        /* --- SCRAP BOOK BASE: CHECKERED CLOTH --- */
+        /* --- THE SCRAP BOOK BASE --- */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Poppins', sans-serif;
-            background: url('static/images/checkered-bg.jpg') center/cover no-repeat;
-            background-color: #f8d7da; /* Fallback */
+            background: url('static/images/checkered-bg.jpg') center/cover no-repeat fixed;
             overflow: hidden; touch-action: manipulation;
         }
 
-        /* --- MAGIC CLOUD ENGINE (FROSTED GLASS) --- */
-        .cloud-msg {
-            position: absolute; padding: 12px 20px; border-radius: 30px;
-            background: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(15px) saturate(180%);
-            -webkit-backdrop-filter: blur(15px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            color: #ff4d6d; font-weight: 600; font-size: 0.85rem; z-index: 50;
-            pointer-events: none; opacity: 0; transition: opacity 1s ease;
-        }
-        .cloud-msg::before, .cloud-msg::after { content: ''; position: absolute; background: inherit; border-radius: 50%; z-index: -1; }
-        .cloud-msg::before { width: 20px; height: 20px; top: -10px; left: 15px; }
-        .cloud-msg::after { width: 15px; height: 15px; top: -7px; right: 15px; }
-
-        @keyframes wander {
-            0% { transform: translate(0, 0); }
-            33% { transform: translate(10px, -10px); }
-            66% { transform: translate(-10px, 10px); }
-            100% { transform: translate(0, 0); }
+        /* Paper texture overlay for realism */
+        body::after {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/felt.png'); 
+            opacity: 0.2; pointer-events: none; z-index: 1;
         }
 
-        /* --- RANSOM FONT STYLING --- */
-        .ransom-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin-bottom: 20px; }
+        /* --- THE RANSOM ENGINE CSS --- */
+        .ransom-word { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin: 10px 0; }
         .ransom-letter {
             display: inline-block;
-            padding: 4px 8px;
             font-family: 'Special Elite', cursive;
-            font-size: 1.4rem;
+            font-size: 1.6rem;
+            padding: 5px 10px;
             text-transform: uppercase;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
             border: 1px solid rgba(0,0,0,0.1);
+            transform: rotate(var(--r));
+            background-color: var(--bg);
+            color: #222;
         }
-        .emoji-span { font-size: 2.2rem; vertical-align: middle; display: block; margin-top: 10px; }
 
-        /* --- POLAROIDS (CENTERED & RESPONSIVE) --- */
-        .polaroid-scatter {
-            position: absolute; background: #fff; padding: 8px 8px 24px 8px;
-            width: 90px; box-shadow: 3px 3px 10px rgba(0,0,0,0.3); z-index: 2;
+        /* --- POLAROID ELEMENTS --- */
+        .polaroid {
+            position: absolute; background: #fff; padding: 10px 10px 30px 10px;
+            width: 105px; box-shadow: 5px 5px 15px rgba(0,0,0,0.3); z-index: 2;
+            transition: transform 0.3s ease;
         }
-        .polaroid-scatter img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+        .polaroid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border: 1px solid #eee; }
         
-        #p1 { top: 5%; left: 15%; transform: rotate(-8deg); }
-        #p2 { top: 8%; right: 15%; transform: rotate(12deg); }
-        #p3 { bottom: 12%; left: 15%; transform: rotate(-5deg); }
-        #p4 { bottom: 15%; right: 15%; transform: rotate(8deg); }
-        #p5 { top: 40%; left: 5%; transform: rotate(-15deg); }
-        #p6 { top: 45%; right: 5%; transform: rotate(10deg); }
+        /* Re-centered positions for iPhone/PC */
+        #p1 { top: 6%; left: 12%; transform: rotate(-10deg); }
+        #p2 { top: 10%; right: 12%; transform: rotate(8deg); }
+        #p3 { bottom: 12%; left: 12%; transform: rotate(-5deg); }
+        #p4 { bottom: 15%; right: 12%; transform: rotate(12deg); }
 
         /* --- CONTENT CARDS --- */
-        .paper-card {
-            background: #fdfaf0 url('https://www.transparenttextures.com/patterns/paper-fibers.png');
-            padding: 30px 20px; width: 85%; max-width: 360px;
-            box-shadow: 5px 5px 20px rgba(0,0,0,0.2);
-            border-radius: 2px; position: relative; z-index: 100;
-            border-left: 1px solid #ddd;
+        .scrap-card {
+            background: #fffef0 url('https://www.transparenttextures.com/patterns/pinstriped-suit.png');
+            padding: 30px 20px; width: 85%; max-width: 380px;
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.2);
+            border-radius: 4px; position: relative; z-index: 100;
+            border: 1px solid #ddd;
         }
 
-        .video-box {
-            background: #fff; padding: 10px 10px 25px 10px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 20px;
-            transform: rotate(-2deg);
+        .video-paper {
+            background: #fff; padding: 12px; border-radius: 2px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2); margin-bottom: 20px;
+            transform: rotate(-1.5deg); border: 1px solid #eee;
         }
 
-        /* Loading */
+        /* --- UI ELEMENTS --- */
         #loading-screen { position: fixed; inset: 0; background: #ffe6ee; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
-        .loader-bar { width: 200px; height: 10px; background: #fff; border-radius: 20px; overflow: hidden; margin-top: 15px; }
-        #progress { width: 0%; height: 100%; background: #ff4d6d; transition: width 0.4s; }
+        .progress-container { width: 220px; height: 12px; background: #fff; border-radius: 20px; overflow: hidden; margin-top: 15px; }
+        #progress-bar { width: 0%; height: 100%; background: #ff4d6d; transition: width 0.3s; }
 
         .page { display: none; width: 100%; height: 100vh; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         #page1 { display: flex; }
-        
-        button { font-family: 'Poppins'; font-weight: 600; padding: 12px 25px; border-radius: 10px; border: none; cursor: pointer; transition: transform 0.2s; }
-        .btn-primary { background: #ff4d6d; color: #fff; }
+
+        button { font-family: 'Poppins', sans-serif; font-weight: 600; padding: 14px 28px; border-radius: 12px; border: none; cursor: pointer; }
+        .btn-yes { background: #ff4d6d; color: #fff; box-shadow: 0 4px 15px rgba(255,77,109,0.4); }
         #no { background: #8e8e8e; color: #fff; position: relative; z-index: 1001; }
-        
+
+        .cloud-msg {
+            position: absolute; padding: 10px 18px; border-radius: 30px;
+            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.5); color: #ff4d6d; font-weight: 600;
+            z-index: 50; opacity: 0; transition: opacity 0.8s; pointer-events: none;
+        }
+
         .heart-trail { position: fixed; font-size: 24px; pointer-events: none; z-index: 99999; transition: transform 1s, opacity 1s; }
     </style>
 </head>
@@ -97,46 +91,48 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <div id="loading-screen">
-        <p style="color:#ff4d6d; font-weight:600;">Please wait for a surprise...</p>
-        <div class="loader-bar"><div id="progress"></div></div>
+        <p style="color:#ff4d6d; font-weight:600; font-family: 'Poppins';">Please wait for a surprise...</p>
+        <div class="progress-container"><div id="progress-bar"></div></div>
     </div>
 
     <audio id="bgMusic" loop><source src="static/bg-music.mp3" type="audio/mpeg"></audio>
 
     <section id="page1" class="page">
-        <div class="polaroid-scatter" id="p1"><img src="static/images/wish1.jpg"></div>
-        <div class="polaroid-scatter" id="p2"><img src="static/images/wish2.jpg"></div>
-        <div class="polaroid-scatter" id="p3"><img src="static/images/wish3.jpg"></div>
-        <div class="polaroid-scatter" id="p4"><img src="static/images/wish4.jpg"></div>
+        <div class="polaroid" id="p1"><img src="static/images/wish1.jpg"></div>
+        <div class="polaroid" id="p2"><img src="static/images/wish2.jpg"></div>
+        <div class="polaroid" id="p3"><img src="static/images/wish3.jpg"></div>
+        <div class="polaroid" id="p4"><img src="static/images/wish4.jpg"></div>
 
-        <div class="paper-card">
-            <div class="ransom-container" id="title-ransom"></div>
-            <span class="emoji-span">🎂</span><br>
-            <button class="btn-primary" onclick="startExperience()">Oru question... ❤️</button>
+        <div class="scrap-card">
+            <div id="ransom-title"></div>
+            <p style="font-size: 2rem; margin: 10px 0;">🎂</p>
+            <button class="btn-yes" onclick="startExperience()">Oru question... ❤️</button>
         </div>
     </section>
 
     <section id="page2" class="page">
-        <div class="video-box">
-            <video width="230" autoplay loop muted playsinline><source src="static/images/kisses.mp4" type="video/mp4"></video>
+        <div class="video-paper">
+            <video width="240" autoplay loop muted playsinline><source src="static/images/kisses.mp4" type="video/mp4"></video>
         </div>
-        <div class="paper-card">
-            <div class="ransom-container" id="question-ransom"></div>
-            <span class="emoji-span">💖</span>
-            <div style="display: flex; gap: 20px; justify-content: center; align-items: center; min-height: 100px; margin-top: 15px;">
-                <button id="yes" class="btn-primary" onclick="goToYesPage()">Yes</button>
+        <div class="scrap-card">
+            <div id="ransom-question"></div>
+            <p style="font-size: 2rem; margin: 10px 0;">💖</p>
+            <div style="display: flex; gap: 20px; justify-content: center; align-items: center; min-height: 120px; margin-top: 10px;">
+                <button id="yes" class="btn-yes" onclick="goToYesPage()">Yes</button>
                 <button id="no" onmouseover="moveNo()" onclick="moveNo()">No</button>
             </div>
         </div>
     </section>
 
     <section id="page3" class="page">
-        <div class="polaroid-scatter" style="top:5%; left:10%;"><img src="static/images/pic1.jpg"></div>
-        <div class="polaroid-scatter" style="top:5%; right:10%;"><img src="static/images/pic2.jpg"></div>
+        <div class="polaroid" style="top:5%; left:10%; width:110px;"><img src="static/images/pic1.jpg"></div>
+        <div class="polaroid" style="top:5%; right:10%; width:110px;"><img src="static/images/pic2.jpg"></div>
         
-        <video width="260" autoplay loop muted playsinline><source src="static/images/kisses1.mp4" type="video/mp4"></video>
-        <h1 style="color:white; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); padding: 0 15px;">UGHHHHHH I Looveee YOU SOOOOO MUCH BABYYYYY❤️</h1>
-        <button class="btn-primary" style="background: white; color: #ff4d6d;" onclick="goToFinalVideo()">Sheri Enna 👋</button>
+        <div class="video-paper">
+            <video width="260" autoplay loop muted playsinline><source src="static/images/kisses1.mp4" type="video/mp4"></video>
+        </div>
+        <h1 style="color:white; text-shadow: 2px 4px 15px rgba(0,0,0,0.6); font-size: 1.5rem; padding: 0 20px;">UGHHHHHH I Looveee YOU SOOOOO MUCH BABYYYYY❤️</h1>
+        <button class="btn-yes" style="background: white; color: #ff4d6d; margin-top: 20px;" onclick="goToFinalVideo()">Sheri Enna 👋</button>
     </section>
 
     <section id="page4" class="page" style="background:#000;">
@@ -146,92 +142,75 @@
     </section>
 
     <script>
-        // --- RANSOM FONT ENGINE ---
-        function createRansomText(elementId, text) {
-            const container = document.getElementById(elementId);
+        // --- RANSOM GENERATOR ---
+        function renderRansom(id, text) {
+            const container = document.getElementById(id);
             const colors = ['#ffadad', '#ffd6a5', '#fdffb6', '#caffbf', '#9bf6ff', '#a0c4ff', '#bdb2ff', '#ffc6ff'];
+            const words = text.split(' ');
             
-            text.split('').forEach(char => {
-                if (char === ' ') {
-                    const space = document.createElement('span');
-                    space.style.width = '10px';
-                    container.appendChild(space);
-                } else {
+            words.forEach(word => {
+                const wordDiv = document.createElement('div');
+                wordDiv.className = 'ransom-word';
+                word.split('').forEach(char => {
                     const span = document.createElement('span');
                     span.className = 'ransom-letter';
                     span.innerText = char;
+                    span.style.setProperty('--r', (Math.random() * 12 - 6) + 'deg');
                     span.style.setProperty('--bg', colors[Math.floor(Math.random() * colors.length)]);
-                    span.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    span.style.transform = `rotate(${(Math.random() * 10) - 5}deg)`;
-                    span.style.color = Math.random() > 0.5 ? '#000' : '#333';
-                    container.appendChild(span);
-                }
+                    wordDiv.appendChild(span);
+                });
+                container.appendChild(wordDiv);
             });
         }
 
         // --- CLOUD ENGINE ---
-        const messages = ["The prettiest girl ❤️", "ANTE MUTH ✨", "My Whole life🤞🏽", "BAAAAAAABBBBBYYY", "Love you! 🌎", "Miss you! 😘"];
-        let page1Active = true;
-        const occupiedSectors = new Set();
-
+        const msgs = ["The prettiest girl ❤️", "ANTE MUTH ✨", "Whole life🤞🏽🎂", "BAAAABYYYYYY", "Love you! 🌎"];
+        let page1On = true;
         function spawnCloud() {
-            if (!page1Active) return;
-            const row = Math.floor(Math.random() * 5);
-            const col = Math.floor(Math.random() * 5);
-            if (occupiedSectors.has(`${row}-${col}`)) return;
-
-            const cloud = document.createElement('div');
-            cloud.className = 'cloud-msg';
-            cloud.innerText = messages[Math.floor(Math.random() * messages.length)];
-            cloud.style.left = (col * 18) + 5 + "%";
-            cloud.style.top = (row * 18) + 5 + "%";
-            cloud.style.animation = `wander 5s ease-in-out infinite`;
-            
-            document.getElementById('page1').appendChild(cloud);
-            occupiedSectors.add(`${row}-${col}`);
-            setTimeout(() => cloud.style.opacity = "1", 100);
-            setTimeout(() => {
-                cloud.style.opacity = "0";
-                setTimeout(() => { cloud.remove(); occupiedSectors.delete(`${row}-${col}`); }, 1000);
-            }, 4500);
+            if (!page1On) return;
+            const c = document.createElement('div');
+            c.className = 'cloud-msg';
+            c.innerText = msgs[Math.floor(Math.random() * msgs.length)];
+            c.style.left = Math.random() * 70 + 5 + "%";
+            c.style.top = Math.random() * 70 + 5 + "%";
+            document.getElementById('page1').appendChild(c);
+            setTimeout(() => c.style.opacity = "1", 100);
+            setTimeout(() => { c.style.opacity = "0"; setTimeout(() => c.remove(), 1000); }, 4000);
         }
 
-        // --- INTERACTIVE LOGIC ---
-        let yesScale = 1;
+        // --- INTERACTION ---
+        let scale = 1;
         function moveNo() {
             const no = document.getElementById("no");
             const yes = document.getElementById("yes");
             no.style.position = "fixed";
-            no.style.left = Math.random() * (window.innerWidth - 80) + "px";
-            no.style.top = Math.random() * (window.innerHeight - 40) + "px";
-            yesScale += 0.15;
-            yes.style.transform = `scale(${yesScale})`;
+            no.style.left = Math.random() * (window.innerWidth - 100) + "px";
+            no.style.top = Math.random() * (window.innerHeight - 50) + "px";
+            scale += 0.2;
+            yes.style.transform = `scale(${scale})`;
         }
 
-        function startExperience() { 
-            page1Active = false; 
-            document.getElementById('bgMusic').play(); 
-            showPage('page2'); 
-        }
-        function goToYesPage() { showPage('page3'); confetti({ particleCount: 150, spread: 70 }); }
+        function startExperience() { page1On = false; document.getElementById('bgMusic').play(); showPage('page2'); }
+        function goToYesPage() { showPage('page3'); confetti({ particleCount: 200, spread: 80 }); }
         function goToFinalVideo() { document.getElementById('bgMusic').pause(); showPage('page4'); document.getElementById('finalVid').play(); }
         function showPage(id) { document.querySelectorAll('.page').forEach(p => p.style.display='none'); document.getElementById(id).style.display='flex'; }
 
         // --- INIT ---
         window.onload = () => {
-            createRansomText('title-ransom', 'Happy Birthday, Gorgeous!');
-            createRansomText('question-ransom', 'Will you be my Valentine?');
+            renderRansom('ransom-title', 'Happy Birthday Gorgeous');
+            renderRansom('ransom-question', 'Will you be my Valentine');
             
-            const bar = document.getElementById('progress');
             let w = 0;
-            const int = setInterval(() => {
-                w += Math.random() * 20;
+            const bar = document.getElementById('progress-bar');
+            const load = setInterval(() => {
+                w += Math.random() * 25;
                 if(w >= 100) {
-                    clearInterval(int);
+                    clearInterval(load);
                     bar.style.width = "100%";
-                    setTimeout(() => { 
-                        document.getElementById('loading-screen').style.display='none'; 
+                    setTimeout(() => {
+                        document.getElementById('loading-screen').style.display='none';
                         setInterval(spawnCloud, 3000);
+                        spawnCloud();
                     }, 500);
                 } else { bar.style.width = w + "%"; }
             }, 300);
@@ -242,7 +221,7 @@
             h.className = 'heart-trail'; h.innerHTML = '❤️';
             h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px';
             document.body.appendChild(h);
-            setTimeout(() => { h.style.transform = 'translateY(-100px) scale(2)'; h.style.opacity = '0'; }, 20);
+            setTimeout(() => { h.style.transform = 'translateY(-100px) scale(1.5)'; h.style.opacity = '0'; }, 20);
             setTimeout(() => h.remove(), 1000);
         });
     </script>
