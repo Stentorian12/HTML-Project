@@ -2,74 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Hi ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
     <style>
-        /* Base Setup */
+        :root {
+            --paper: #fdfaf0;
+            --check-bg: #fff5f5;
+            --check-color: #ffb3ba; /* Soft red gingham */
+        }
+
+        /* Red Checkered Cloth Background */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            font-family: 'Poppins', Arial, sans-serif;
-            background: url('static/mosaic-bg.jpg') no-repeat center center fixed;
-            background-size: cover;
+            font-family: 'Special Elite', serif;
+            background-color: var(--check-bg);
+            background-image: 
+                linear-gradient(90deg, rgba(255, 77, 109, 0.15) 50%, transparent 50%),
+                linear-gradient(rgba(255, 77, 109, 0.15) 50%, transparent 50%);
+            background-size: 50px 50px;
             overflow: hidden; touch-action: manipulation;
         }
 
-        /* --- SCATTERED POLAROIDS --- */
+        /* --- WASHI TAPE POLAROIDS --- */
         .polaroid-scatter {
-            position: absolute; background: rgba(255, 255, 255, 0.8);
-            padding: 8px 8px 20px 8px; width: 100px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1;
-            backdrop-filter: blur(5px);
+            position: absolute; background: white; padding: 8px 8px 22px 8px;
+            width: 90px; box-shadow: 2px 4px 8px rgba(0,0,0,0.1); z-index: 1;
         }
-        .polaroid-scatter img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 2px; }
+        .polaroid-scatter img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
 
-        /* Random Positions for the 8 Wish Photos */
-        #p1 { top: 5%; left: 5%; transform: rotate(-10deg); }
-        #p2 { top: 15%; right: 5%; transform: rotate(15deg); }
-        #p3 { bottom: 10%; left: 8%; transform: rotate(-5deg); }
-        #p4 { bottom: 15%; right: 5%; transform: rotate(12deg); }
-        #p5 { top: 40%; left: 2%; transform: rotate(-15deg); }
-        #p6 { top: 50%; right: 2%; transform: rotate(8deg); }
-        #p7 { top: 2%; left: 45%; transform: rotate(5deg); }
-        #p8 { bottom: 5%; left: 40%; transform: rotate(-8deg); }
+        /* Washi Tape Patterns */
+        .tape {
+            position: absolute; width: 50px; height: 20px;
+            top: -10px; left: 50%; transform: translateX(-50%) rotate(-3deg);
+            opacity: 0.8; z-index: 2;
+        }
+        .tape-dots { background: #ff4d6d; background-image: radial-gradient(white 10%, transparent 11%); background-size: 5px 5px; }
+        .tape-stripes { background: #4db8ff; background-image: linear-gradient(45deg, rgba(255,255,255,.2) 25%, transparent 25%); background-size: 4px 4px; }
+        .tape-hearts { background: #ffcc00; position: relative; }
+        .tape-hearts::after { content: '❤'; font-size: 10px; color: white; position: absolute; left: 5px; top: 2px; }
 
-        @media (max-width: 600px) { .polaroid-scatter { width: 70px; } }
+        /* Spread Positions (No Overlap with Center) */
+        #p1 { top: 5%; left: 5%; transform: rotate(-5deg); }
+        #p2 { top: 7%; right: 5%; transform: rotate(6deg); }
+        #p3 { bottom: 8%; left: 4%; transform: rotate(-8deg); }
+        #p4 { bottom: 10%; right: 6%; transform: rotate(10deg); }
+        #p5 { top: 40%; left: 2%; transform: rotate(-12deg); }
+        #p6 { top: 45%; right: 2%; transform: rotate(8deg); }
+        #p7 { top: 2%; left: 45%; transform: rotate(2deg); }
+        #p8 { bottom: 4%; left: 42%; transform: rotate(-4deg); }
 
-        /* UI Elements */
+        @media (max-width: 600px) { .polaroid-scatter { width: 75px; } }
+
+        /* SCRAPBOOK PAPER CARD */
         .page { display: none; width: 100%; height: 100vh; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         #page1 { display: flex; }
-        
-        .main-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 30px; border-radius: 25px;
-            z-index: 100; position: relative;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            width: 85%; max-width: 400px;
+
+        .main-paper {
+            background: var(--paper);
+            padding: 30px; width: 80%; max-width: 340px;
+            box-shadow: 5px 5px 20px rgba(0,0,0,0.1);
+            position: relative; z-index: 100;
+            border-left: 2px solid rgba(0,0,0,0.05);
+            transform: rotate(-1deg);
+        }
+        /* Torn edge effect */
+        .main-paper::after {
+            content: ""; position: absolute; bottom: -10px; left: 0; width: 100%; height: 10px;
+            background: linear-gradient(-45deg, var(--paper) 5px, transparent 0), linear-gradient(45deg, var(--paper) 5px, transparent 0);
+            background-size: 10px 20px;
         }
 
-        h1 { color: #ff4d6d; text-shadow: 1px 1px 5px rgba(255,255,255,0.5); }
+        /* RANSOM NOTE TEXT */
+        .ransom span {
+            display: inline-block; padding: 4px 8px; margin: 2px;
+            background: white; box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-size: 1.5rem; color: #333; text-transform: uppercase;
+        }
 
         button {
-            font-family: 'Poppins', sans-serif; font-weight: 600;
-            padding: 12px 25px; border-radius: 12px; border: none; cursor: pointer;
+            font-family: 'Special Elite', cursive; font-weight: bold;
+            padding: 12px 20px; border: 1px solid #ccc; cursor: pointer; margin-top: 15px;
         }
+        #yes { background: #ff4d6d; color: white; border: none; box-shadow: 2px 2px 0px #c0392b; }
+        #no { background: #eee; color: #666; position: fixed; z-index: 10000; }
 
-        #yes { background: #ff4d6d; color: white; z-index: 50; }
-        #no { 
-            background: #8e8e8e; color: white; 
-            z-index: 10000 !important; /* THE HITBOX FIX */
-            position: relative; 
-        }
-
-        .heart-trail {
-            position: fixed; font-size: 22px; pointer-events: none; z-index: 99999;
-            transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.5, 1), opacity 1.2s ease-out;
-        }
-
-        video { border-radius: 15px; margin-bottom: 15px; max-width: 90%; }
-        .polaroid-inline { background: white; padding: 10px 10px 25px; width: 120px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .heart-trail { position: fixed; font-size: 20px; pointer-events: none; z-index: 99999; }
+        video { width: 100%; border-radius: 2px; margin-top: 15px; border: 4px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .polaroid-inline { background: white; padding: 5px 5px 15px; width: 100px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -80,62 +100,85 @@
     </audio>
 
     <section id="page1" class="page">
-        <div class="polaroid-scatter" id="p1"><img src="static/images/wish1.jpg"></div>
-        <div class="polaroid-scatter" id="p2"><img src="static/images/wish2.jpg"></div>
-        <div class="polaroid-scatter" id="p3"><img src="static/images/wish3.jpg"></div>
-        <div class="polaroid-scatter" id="p4"><img src="static/images/wish4.jpg"></div>
-        <div class="polaroid-scatter" id="p5"><img src="static/images/wish5.jpg"></div>
-        <div class="polaroid-scatter" id="p6"><img src="static/images/wish6.jpg"></div>
-        <div class="polaroid-scatter" id="p7"><img src="static/images/wish7.jpg"></div>
-        <div class="polaroid-scatter" id="p8"><img src="static/images/wish8.jpg"></div>
+        <div class="polaroid-scatter" id="p1"><div class="tape tape-dots"></div><img src="static/images/wish1.jpg"></div>
+        <div class="polaroid-scatter" id="p2"><div class="tape tape-stripes"></div><img src="static/images/wish2.jpg"></div>
+        <div class="polaroid-scatter" id="p3"><div class="tape tape-hearts"></div><img src="static/images/wish3.jpg"></div>
+        <div class="polaroid-scatter" id="p4"><div class="tape tape-dots"></div><img src="static/images/wish4.jpg"></div>
+        <div class="polaroid-scatter" id="p5"><div class="tape tape-stripes"></div><img src="static/images/wish5.jpg"></div>
+        <div class="polaroid-scatter" id="p6"><div class="tape tape-hearts"></div><img src="static/images/wish6.jpg"></div>
+        <div class="polaroid-scatter" id="p7"><div class="tape tape-dots"></div><img src="static/images/wish7.jpg"></div>
+        <div class="polaroid-scatter" id="p8"><div class="tape tape-stripes"></div><img src="static/images/wish8.jpg"></div>
 
-        <div class="main-card">
-            <h1>Happy Birthday, Gorgeous! 🎂</h1>
-            <button style="background:#ff4d6d; color:white;" onclick="startExperience()">Oru question... ❤️</button>
+        <div class="main-paper">
+            <h1 class="ransom" id="t1">Happy Birthday</h1>
+            <button onclick="startExperience()">Oru question... ❤️</button>
         </div>
     </section>
 
     <section id="page2" class="page">
-        <video width="250" autoplay loop muted playsinline>
-            <source src="static/images/kisses.mp4" type="video/mp4">
-        </video>
-        <div class="main-card">
-            <h1>KEERTHI! Will you be my Valentine? 💖</h1>
-            <div style="display: flex; gap: 20px; justify-content: center; align-items: center;">
-                <button id="yes" onclick="goToYesPage()">Yes</button>
-                <button id="no" onmouseover="moveNo(event)" onclick="moveNo(event)">No</button>
+        <div class="main-paper">
+            <video autoplay loop muted playsinline><source src="static/images/kisses.mp4" type="video/mp4"></video>
+            <h1 class="ransom" id="t2">Be My Valentine?</h1>
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <button id="yes" onclick="goToYesPage()">YES</button>
+                <button id="no" onmouseover="moveNo(event)" onclick="moveNo(event)">NO</button>
             </div>
         </div>
     </section>
 
     <section id="page3" class="page">
-        <video width="250" autoplay loop muted playsinline>
-            <source src="static/images/kisses1.mp4" type="video/mp4">
-        </video>
-        <h1>I Looveee YOU SOOO MUCH BABYYYYY❤️</h1>
-        <div style="display: flex; gap: 10px; justify-content: center; margin: 20px;">
-            <div class="polaroid-inline"><img src="static/images/pic1.jpg" style="width:100%"></div>
-            <div class="polaroid-inline" style="transform: rotate(5deg);"><img src="static/images/pic2.jpg" style="width:100%"></div>
+        <div class="main-paper">
+            <video autoplay loop muted playsinline><source src="static/images/kisses1.mp4" type="video/mp4"></video>
+            <h1 class="ransom" id="t3">I Love You</h1>
+            <div style="display: flex; gap: 5px; justify-content: center; margin: 15px 0;">
+                <div class="polaroid-inline" style="transform:rotate(-3deg)"><img src="static/images/pic1.jpg" style="width:100%"></div>
+                <div class="polaroid-inline" style="transform:rotate(4deg)"><img src="static/images/pic2.jpg" style="width:100%"></div>
+            </div>
+            <button onclick="goToFinalVideo()">Sheri Enna 👋</button>
         </div>
-        <button style="background: white; color: #ff4d6d; border: 2px solid #ff4d6d;" onclick="goToFinalVideo()">Sheri Enna 👋</button>
     </section>
 
     <section id="page4" class="page" style="background:#000;">
-        <video id="finalVid" controls style="width:100%; height:100%; object-fit: contain;">
+        <video id="finalVid" controls playsinline style="height:100vh; width:100vw; object-fit:contain;">
             <source src="static/images/vid1.mp4" type="video/mp4">
         </video>
     </section>
 
     <script>
-        // NAVIGATION
+        // RANSOM EFFECT GENERATOR
+        function applyRansom(id) {
+            const el = document.getElementById(id);
+            const words = el.innerText.split(' ');
+            el.innerHTML = '';
+            const bgColors = ['#fff', '#fff9f9', '#f0f8ff', '#fff5e6'];
+            
+            words.forEach(word => {
+                const wordSpan = document.createElement('div');
+                wordSpan.style.display = 'inline-block';
+                word.split('').forEach(char => {
+                    const span = document.createElement('span');
+                    span.innerText = char;
+                    span.style.backgroundColor = bgColors[Math.floor(Math.random()*bgColors.length)];
+                    span.style.transform = `rotate(${(Math.random()*10)-5}deg)`;
+                    wordSpan.appendChild(span);
+                });
+                el.appendChild(wordSpan);
+                el.innerHTML += ' ';
+            });
+        }
+
+        applyRansom('t1');
+
         function startExperience() {
-            document.getElementById('bgMusic').play().catch(() => {});
+            document.getElementById('bgMusic').play().catch(()=>{});
             showPage('page2');
+            applyRansom('t2');
         }
 
         function goToYesPage() {
             showPage('page3');
-            confetti({ particleCount: 150, spread: 70, origin: { x: 0.5, y: 0.5 } });
+            applyRansom('t3');
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
         }
 
         function goToFinalVideo() {
@@ -144,43 +187,32 @@
             document.getElementById('finalVid').play();
         }
 
-        function showPage(pageId) {
+        function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-            document.getElementById(pageId).style.display = 'flex';
+            document.getElementById(id).style.display = 'flex';
         }
 
-        // NO BUTTON LOGIC
-        let yesSize = 1;
+        let yesScale = 1;
         function moveNo(e) {
-            const noBtn = document.getElementById("no");
-            const yesBtn = document.getElementById("yes");
-            
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 40) + 20;
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 40) + 20;
-            
-            noBtn.style.position = "fixed";
-            noBtn.style.left = x + "px";
-            noBtn.style.top = y + "px";
-
-            yesSize += 0.15;
-            yesBtn.style.transform = `scale(${yesSize})`;
+            const btn = document.getElementById("no");
+            const yes = document.getElementById("yes");
+            btn.style.left = Math.random() * (window.innerWidth - 80) + "px";
+            btn.style.top = Math.random() * (window.innerHeight - 40) + "px";
+            yesScale += 0.2;
+            yes.style.transform = `scale(${yesScale})`;
         }
 
-        // HEART TRAIL
-        document.addEventListener('mousemove', (e) => spawnHeart(e.clientX, e.clientY));
-        function spawnHeart(x, y) {
-            const heart = document.createElement('div');
-            heart.className = 'heart-trail';
-            heart.innerHTML = '❤️';
-            heart.style.left = x + 'px';
-            heart.style.top = y + 'px';
-            document.body.appendChild(heart);
+        document.addEventListener('mousemove', (e) => {
+            const h = document.createElement('div');
+            h.className = 'heart-trail'; h.innerHTML = '❤️';
+            h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px';
+            document.body.appendChild(h);
             setTimeout(() => {
-                heart.style.transform = `translate(${(Math.random()-0.5)*100}px, -100px) scale(1.5)`;
-                heart.style.opacity = '0';
+                h.style.transform = `translate(${(Math.random()-0.5)*80}px, -100px) scale(0)`;
+                h.style.opacity = '0';
             }, 20);
-            setTimeout(() => heart.remove(), 1000);
-        }
+            setTimeout(() => h.remove(), 1000);
+        });
     </script>
 </body>
 </html>
