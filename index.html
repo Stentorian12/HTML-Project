@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hi ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Base Setup */
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef, #ffe6ee);
+            background-size: 400% 400%; animation: gradientMove 10s ease infinite;
+            overflow: hidden; touch-action: manipulation;
+        }
+
+        @keyframes gradientMove { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
+
+        body::after {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(circle, white 1px, transparent 1px);
+            background-size: 50px 50px; opacity: 0.2; pointer-events: none; z-index: -1;
+        }
+
+        /* --- VISIBLE FROSTED GLASS --- */
+        .cloud-msg, .btn-style, .polaroid {
+            background: rgba(255, 255, 255, 0.45) !important;
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .cloud-msg {
+            position: absolute; padding: 12px 20px; border-radius: 30px;
+            color: #ff4d6d; font-weight: 600; font-size: 0.85rem; z-index: 5; 
+            pointer-events: none; opacity: 0; display: flex; align-items: center; 
+            justify-content: center; transition: opacity 1s ease;
+        }
+
+        .cloud-msg::before, .cloud-msg::after { content: ''; position: absolute; background: inherit; border-radius: 50%; z-index: -1; }
+        .cloud-msg::before { width: 20px; height: 20px; top: -10px; left: 15px; }
+        .cloud-msg::after { width: 15px; height: 15px; top: -7px; right: 15px; }
+
+        @keyframes wander {
+            0% { transform: translate(0, 0); }
+            33% { transform: translate(15px, -10px); }
+            66% { transform: translate(-10px, 15px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Loading Screen */
+        #loading-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #ffe6ee; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
+        .loader-container { width: 250px; height: 10px; background: rgba(255, 255, 255, 0.5); border-radius: 20px; overflow: hidden; }
+        #progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #ff4d6d, #ff8fa3); transition: width 0.4s ease; }
+        #loading-text { margin-top: 15px; color: #ff4d6d; font-size: 0.9rem; font-weight: 600; }
+
+        /* Navigation & Buttons */
+        .page { display: none; width: 100%; height: 100vh; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        #page1 { display: flex; }
+        h1 { font-weight: 600; color: #ff4d6d; margin: 20px; font-size: 1.5rem; padding: 0 10px; z-index: 10; position: relative; }
+
+        button {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600 !important; /* Forces all buttons to be bold */
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            border-radius: 12px;
+            padding: 12px 25px;
+        }
+
+        #yes { 
+            background: #ff4d6d; color: white; z-index: 50; 
+            animation: yesHeartbeat 1.5s ease-in-out infinite;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+        }
+        @keyframes yesHeartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        
+        #no { background: #8e8e8e; color: white; z-index: 1000; position: relative; }
+
+        .btn-style { color: #ff4d6d; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 100; }
+        
+        .polaroid { padding: 10px 10px 30px; width: 130px; transform: rotate(-3deg); margin: 5px; }
+        .polaroid img { width: 100%; border-radius: 5px; display: block; }
+
+        video { border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        #page4 { background: #000; }
+        #page4 video { width: 100vw; height: 100vh; object-fit: contain; }
+
+        .heart-trail {
+            position: fixed; font-size: 22px; pointer-events: none; z-index: 99999 !important;
+            transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.5, 1), opacity 1.2s ease-out;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <div id="loading-screen">
+        <div class="loader-container"><div id="progress-bar"></div></div>
+        <p id="loading-text">Preparing your surprise...</p>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="../static/bg-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <section id="page1" class="page">
+        <h1 style="color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.15);">Happy Birthday, Gorgeous! 🎂</h1>
+        <button class="btn-style" onclick="startExperience()">Oru question... ❤️</button>
+    </section>
+
+    <section id="page2" class="page">
+        <video width="250" autoplay loop muted playsinline>
+            <source src="../static/images/kisses.mp4" type="video/mp4">
+        </video>
+        <h1>KEERTHIIIII! MyLOUUUU, will you be my Valentine?(please😞) 💖</h1>
+        <div style="display: flex; gap: 20px; align-items: center; justify-content: center; position: relative; width: 100%; height: 200px;">
+            <button id="yes" onclick="goToYesPage()">Yes</button>
+            <button id="no" onmouseover="moveNo(event)" onclick="moveNo(event)">No</button>
+        </div>
+    </section>
+
+    <section id="page3" class="page">
+        <video width="250" autoplay loop muted playsinline>
+            <source src="../static/images/kisses1.mp4" type="video/mp4">
+        </video>
+        <h1>UGHHHHHH I Looveee YOU SOOOOO MUCH BABYYYYY❤️</h1>
+        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+            <div class="polaroid"><img src="../static/images/pic1.jpg"></div>
+            <div class="polaroid" style="transform: rotate(5deg);"><img src="../static/images/pic2.jpg"></div>
+        </div>
+        <button class="btn-style" style="border: 2px solid #ff4d6d;" onclick="goToFinalVideo()">Sheri Enna 👋</button>
+    </section>
+
+    <section id="page4" class="page">
+        <video id="finalVid" controls playsinline>
+            <source src="../static/images/vid1.mp4" type="video/mp4">
+        </video>
+    </section>
+
+    <script>
+        // --- 1. LOADING LOGIC ---
+        window.addEventListener('load', function() {
+            const bar = document.getElementById('progress-bar');
+            const loader = document.getElementById('loading-screen');
+            let width = 0;
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loader.style.opacity = "0";
+                        setTimeout(() => {
+                            loader.style.display = "none";
+                            spawnCloudBurst();
+                        }, 1000);
+                    }, 500);
+                } else {
+                    width += Math.random() * 15;
+                    if (width > 100) width = 100;
+                    bar.style.width = width + "%";
+                }
+            }, 400); 
+        });
+
+        // --- 2. MESSAGE LIBRARY & UNIQUE CLOUD BURST ---
+        const messages = [
+            "My favorite person ever 🌟", "The prettiest girl ❤️", "I Miss my Baby SO MUCH😘", 
+            "ANTE MUTH, ANTE CUTIE PIE✨", "Happy Birthday My Whole life🤞🏽🎂", "Ante Baby is ALL I THINK ABOUT💭", 
+            "You make my days HAPPIER😊", "I belong to you AND ONLY YOU ❤️", "BAAAAAAABBBBBYYYYYYYYYYYYYYYY", 
+            "The most beautiful EYES 😍", "I'm so lucky to EXIST with you in my life 🍀", "love you to the MOON and BACK!!🌎", 
+            "You are so PERFECT without even tryin✨", "Sending you all my love 💌", "You're the best part of my day 💖", 
+            "My soulmate 👩‍❤️‍👨", "LOVE LOVE LOVE LOVE LOVE LOVE LOVE!!XOXO ✨",
+            "Kisses and hugs! 💋", "I wanna see you so bad"
+        ];
+
+        const occupiedSectors = new Set();
+
+        function spawnCloudBurst() {
+            const p1 = document.getElementById('page1');
+            if (window.getComputedStyle(p1).display !== 'none') {
+                let shuffled = [...messages].sort(() => 0.5 - Math.random());
+                for(let i = 0; i < 4; i++) { 
+                    setTimeout(() => createFloatingCloud(shuffled[i]), i * 400); 
+                }
+            }
+        }
+
+        function createFloatingCloud(specificMessage) {
+            const container = document.getElementById('page1');
+            const row = Math.floor(Math.random() * 5);
+            const col = Math.floor(Math.random() * 5);
+            const sectorID = `${row}-${col}`;
+            
+            if (occupiedSectors.has(sectorID)) return;
+
+            const cloud = document.createElement('div');
+            cloud.className = 'cloud-msg';
+            cloud.innerText = specificMessage;
+            cloud.style.left = (col * 18) + (Math.random() * 8) + "%";
+            cloud.style.top = (row * 18) + (Math.random() * 8) + "%";
+            cloud.style.animation = `wander ${Math.random() * 3 + 4}s ease-in-out infinite`;
+            
+            container.appendChild(cloud);
+            occupiedSectors.add(sectorID);
+            
+            setTimeout(() => { if(cloud) cloud.style.opacity = "0.9"; }, 100);
+            setTimeout(() => {
+                if(cloud) {
+                    cloud.style.opacity = "0";
+                    setTimeout(() => { 
+                        cloud.remove(); 
+                        occupiedSectors.delete(sectorID); 
+                    }, 1000);
+                }
+            }, 6000);
+        }
+
+        setInterval(spawnCloudBurst, 3500);
+
+        // --- 3. NO BUTTON LOGIC ---
+        let yesSize = 20;
+        function moveNo(e) {
+            if(e) { e.stopPropagation(); }
+            const noBtn = document.getElementById("no");
+            const yesBtn = document.getElementById("yes");
+            
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 60) + 30;
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 60) + 30;
+            
+            noBtn.style.position = "fixed";
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+
+            yesSize += 10;
+            yesBtn.style.fontSize = yesSize + "px";
+            yesBtn.style.padding = (yesSize/2) + "px " + yesSize + "px";
+        }
+
+        // --- 4. NAVIGATION ---
+        function startExperience() {
+            document.getElementById('bgMusic').play().catch(() => {});
+            showPage('page2');
+        }
+
+        function goToYesPage() {
+            showPage('page3');
+            confetti({ particleCount: 150, spread: 70, origin: { x: 0.5, y: 0.5 } });
+        }
+
+        function goToFinalVideo() {
+            document.getElementById('bgMusic').pause();
+            showPage('page4');
+            document.getElementById('finalVid').play();
+        }
+
+        function showPage(pageId) {
+            const pages = ['page1', 'page2', 'page3', 'page4'];
+            pages.forEach(id => document.getElementById(id).style.display = 'none');
+            document.getElementById(pageId).style.display = 'flex';
+        }
+
+        // --- 5. SMOOTH HEART TRAIL ---
+        let lastX = 0, lastY = 0;
+        function spawnHeart(x, y) {
+            const distance = Math.hypot(x - lastX, y - lastY);
+            if (distance < 15) return;
+            lastX = x; lastY = y;
+
+            const heart = document.createElement('div');
+            heart.className = 'heart-trail';
+            heart.innerHTML = '❤️';
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            document.body.appendChild(heart);
+            
+            const drift = (Math.random() - 0.5) * 150;
+            setTimeout(() => {
+                heart.style.transform = `translate(${drift}px, -120px) scale(1.8) rotate(${drift/5}deg)`;
+                heart.style.opacity = '0';
+            }, 20);
+            setTimeout(() => heart.remove(), 1200);
+        }
+
+        document.addEventListener('mousemove', (e) => spawnHeart(e.clientX, e.clientY));
+        document.addEventListener('touchmove', (e) => {
+            if(e.touches[0]) spawnHeart(e.touches[0].clientX, e.touches[0].clientY);
+        });
+        document.addEventListener('touchstart', (e) => {
+            if(e.touches[0]) spawnHeart(e.touches[0].clientX, e.touches[0].clientY);
+        });
+    </script>
+</body>
+</html>
