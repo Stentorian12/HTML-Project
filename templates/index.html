@@ -6,6 +6,7 @@
     <title>Hi ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* Base Setup */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Poppins', Arial, sans-serif;
@@ -22,17 +23,20 @@
             background-size: 50px 50px; opacity: 0.2; pointer-events: none; z-index: -1;
         }
 
+        /* --- VISIBLE FROSTED GLASS --- */
         .cloud-msg, .btn-style, .polaroid {
-            background: rgba(255, 255, 255, 0.7) !important;
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.45) !important;
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .cloud-msg {
             position: absolute; padding: 12px 20px; border-radius: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); color: #ff4d6d; font-weight: 600;
-            font-size: 0.85rem; z-index: 5; pointer-events: none; opacity: 0;
-            display: flex; align-items: center; justify-content: center; transition: opacity 1s ease;
+            color: #ff4d6d; font-weight: 600; font-size: 0.85rem; z-index: 5; 
+            pointer-events: none; opacity: 0; display: flex; align-items: center; 
+            justify-content: center; transition: opacity 1s ease;
         }
 
         .cloud-msg::before, .cloud-msg::after { content: ''; position: absolute; background: inherit; border-radius: 50%; z-index: -1; }
@@ -46,23 +50,41 @@
             100% { transform: translate(0, 0); }
         }
 
+        /* Loading Screen */
         #loading-screen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #ffe6ee; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
         .loader-container { width: 250px; height: 10px; background: rgba(255, 255, 255, 0.5); border-radius: 20px; overflow: hidden; }
         #progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #ff4d6d, #ff8fa3); transition: width 0.4s ease; }
         #loading-text { margin-top: 15px; color: #ff4d6d; font-size: 0.9rem; font-weight: 600; }
 
+        /* Navigation & Buttons */
         .page { display: none; width: 100%; height: 100vh; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         #page1 { display: flex; }
         h1 { font-weight: 600; color: #ff4d6d; margin: 20px; font-size: 1.5rem; padding: 0 10px; z-index: 10; position: relative; }
 
-        #yes { background: #ff4d6d; color: white; padding: 10px 25px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; animation: yesHeartbeat 1.5s ease-in-out infinite; z-index: 50; transition: all 0.2s ease; }
+        button {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600 !important; /* Forces all buttons to be bold */
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            border-radius: 12px;
+            padding: 12px 25px;
+        }
+
+        #yes { 
+            background: #ff4d6d; color: white; z-index: 50; 
+            animation: yesHeartbeat 1.5s ease-in-out infinite;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+        }
         @keyframes yesHeartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         
-        #no { background: gray; color: white; padding: 10px 25px; border-radius: 10px; border: none; cursor: pointer; z-index: 1000; position: relative; }
+        #no { background: #8e8e8e; color: white; z-index: 1000; position: relative; }
 
-        .btn-style { padding: 12px 25px; border-radius: 10px; border: none; color: #ff4d6d; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 100; }
+        .btn-style { color: #ff4d6d; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 100; }
         
-        .polaroid { padding: 10px 10px 30px; width: 130px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: rotate(-3deg); margin: 5px; }
+        .polaroid { padding: 10px 10px 30px; width: 130px; transform: rotate(-3deg); margin: 5px; }
         .polaroid img { width: 100%; border-radius: 5px; display: block; }
 
         video { border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
@@ -89,7 +111,7 @@
     </audio>
 
     <section id="page1" class="page">
-        <h1 style="color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.1);">Happy Birthday, Gorgeous! 🎂</h1>
+        <h1 style="color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.15);">Happy Birthday, Gorgeous! 🎂</h1>
         <button class="btn-style" onclick="startExperience()">Oru question... ❤️</button>
     </section>
 
@@ -135,7 +157,7 @@
                         loader.style.opacity = "0";
                         setTimeout(() => {
                             loader.style.display = "none";
-                            spawnCloudBurst(); // Initial spawn as soon as loader goes
+                            spawnCloudBurst();
                         }, 1000);
                     }, 500);
                 } else {
@@ -146,7 +168,7 @@
             }, 400); 
         });
 
-        // --- 2. MESSAGE LIBRARY & CLOUD BURST ---
+        // --- 2. MESSAGE LIBRARY & UNIQUE CLOUD BURST ---
         const messages = [
             "My favorite person ever 🌟", "The prettiest girl ❤️", "I Miss my Baby SO MUCH😘", 
             "ANTE MUTH, ANTE CUTIE PIE✨", "Happy Birthday My Whole life🤞🏽🎂", "Ante Baby is ALL I THINK ABOUT💭", 
@@ -160,7 +182,6 @@
         const occupiedSectors = new Set();
 
         function spawnCloudBurst() {
-            // Check if page1 is visible by seeing if it's NOT 'none'
             const p1 = document.getElementById('page1');
             if (window.getComputedStyle(p1).display !== 'none') {
                 let shuffled = [...messages].sort(() => 0.5 - Math.random());
@@ -181,8 +202,6 @@
             const cloud = document.createElement('div');
             cloud.className = 'cloud-msg';
             cloud.innerText = specificMessage;
-            
-            // Random positioning logic
             cloud.style.left = (col * 18) + (Math.random() * 8) + "%";
             cloud.style.top = (row * 18) + (Math.random() * 8) + "%";
             cloud.style.animation = `wander ${Math.random() * 3 + 4}s ease-in-out infinite`;
@@ -190,10 +209,7 @@
             container.appendChild(cloud);
             occupiedSectors.add(sectorID);
             
-            // Fade in
             setTimeout(() => { if(cloud) cloud.style.opacity = "0.9"; }, 100);
-            
-            // Fade out and remove
             setTimeout(() => {
                 if(cloud) {
                     cloud.style.opacity = "0";
@@ -205,7 +221,6 @@
             }, 6000);
         }
 
-        // Start interval
         setInterval(spawnCloudBurst, 3500);
 
         // --- 3. NO BUTTON LOGIC ---
@@ -229,10 +244,7 @@
 
         // --- 4. NAVIGATION ---
         function startExperience() {
-            const music = document.getElementById('bgMusic');
-            music.play().catch(() => {
-                console.log("Music requires interaction");
-            });
+            document.getElementById('bgMusic').play().catch(() => {});
             showPage('page2');
         }
 
@@ -249,13 +261,11 @@
 
         function showPage(pageId) {
             const pages = ['page1', 'page2', 'page3', 'page4'];
-            pages.forEach(id => {
-                document.getElementById(id).style.display = 'none';
-            });
+            pages.forEach(id => document.getElementById(id).style.display = 'none');
             document.getElementById(pageId).style.display = 'flex';
         }
 
-        // --- 5. SMOOTH HEART TRAIL LOGIC ---
+        // --- 5. SMOOTH HEART TRAIL ---
         let lastX = 0, lastY = 0;
         function spawnHeart(x, y) {
             const distance = Math.hypot(x - lastX, y - lastY);
