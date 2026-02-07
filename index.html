@@ -167,21 +167,28 @@
             tempDiv.innerHTML = html;
             const nodes = Array.from(tempDiv.childNodes);
             el.innerHTML = '';
+    
             nodes.forEach(node => {
-                if (node.nodeType === 3) {
+                if (node.nodeType === 3) { // Text node
                     node.textContent.split(' ').forEach(word => {
-                        const wordDiv = document.createElement('div');
-                        wordDiv.style.display = 'inline-block';
+                        if(word.trim() === "") return;
+                        const wordSpan = document.createElement('span');
+                        wordSpan.style.display = 'inline-block'; // Keeps the word from breaking in the middle
+                        wordSpan.style.whiteSpace = 'nowrap';    // Forces letters to stay together
+                        wordSpan.style.margin = '2px';           // Adds a tiny gap between words
+                        
                         word.split('').forEach(char => {
                             const span = document.createElement('span');
                             span.innerText = char;
+                            span.style.fontSize = '1.1rem'; // Slightly smaller to prevent overflow
                             span.style.transform = `rotate(${(Math.random()*10)-5}deg)`;
-                            wordDiv.appendChild(span);
+                            wordSpan.appendChild(span);
                         });
-                        el.appendChild(wordDiv);
-                        el.innerHTML += '&nbsp;';
+                    el.appendChild(wordSpan);
                     });
-                } else { el.appendChild(node.cloneNode(true)); }
+                } else { 
+                    el.appendChild(node.cloneNode(true)); 
+                }
             });
         }
         applyRansom('t1');
@@ -233,3 +240,4 @@
     </script>
 </body>
 </html>
+
