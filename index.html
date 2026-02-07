@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Hi ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --paper: #fdfaf0; }
-
+        /* --- RESTORING YOUR BASE SETUP --- */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            font-family: 'Special Elite', serif;
+            font-family: 'Poppins', Arial, sans-serif;
             background-color: #fff5f5;
+            /* New Gingham Background */
             background-image: 
                 linear-gradient(90deg, rgba(255, 77, 109, 0.1) 50%, transparent 50%),
                 linear-gradient(rgba(255, 77, 109, 0.1) 50%, transparent 50%);
@@ -19,66 +19,86 @@
             overflow: hidden; touch-action: manipulation;
         }
 
-        /* --- POLAROIDS & TAPE --- */
+        /* --- POLAROIDS WITH WASHI TAPE --- */
         .polaroid-scatter {
             position: absolute; background: white; padding: 8px 8px 22px 8px;
-            width: 90px; box-shadow: 2px 4px 8px rgba(0,0,0,0.1); z-index: 1;
+            width: 100px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1;
         }
-        .polaroid-scatter img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+        .polaroid-scatter img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 2px; }
         
+        /* Patterned Washi Tape */
         .tape {
-            position: absolute; width: 50px; height: 20px;
-            top: -10px; left: 50%; transform: translateX(-50%) rotate(-3deg);
-            opacity: 0.8; z-index: 2;
+            position: absolute; width: 55px; height: 22px;
+            top: -12px; left: 50%; transform: translateX(-50%) rotate(-3deg);
+            opacity: 0.85; z-index: 2;
         }
         .tape-dots { background: #ff4d6d; background-image: radial-gradient(white 10%, transparent 11%); background-size: 5px 5px; }
         .tape-stripes { background: #4db8ff; background-image: linear-gradient(45deg, rgba(255,255,255,.2) 25%, transparent 25%); background-size: 4px 4px; }
-        .tape-hearts { background: #ffcc00; display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; }
+        .tape-hearts { background: #ffcc00; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; }
 
-        #p1 { top: 5%; left: 5%; transform: rotate(-5deg); }
-        #p2 { top: 7%; right: 5%; transform: rotate(6deg); }
-        #p3 { bottom: 8%; left: 4%; transform: rotate(-8deg); }
-        #p4 { bottom: 10%; right: 6%; transform: rotate(10deg); }
-        #p5 { top: 40%; left: 2%; transform: rotate(-12deg); }
-        #p6 { top: 45%; right: 2%; transform: rotate(8deg); }
-        #p7 { top: 2%; left: 45%; transform: rotate(2deg); }
-        #p8 { bottom: 4%; left: 42%; transform: rotate(-4deg); }
+        /* Your Original Positions Restored */
+        #p1 { top: 5%; left: 5%; transform: rotate(-10deg); }
+        #p2 { top: 15%; right: 5%; transform: rotate(15deg); }
+        #p3 { bottom: 10%; left: 8%; transform: rotate(-5deg); }
+        #p4 { bottom: 15%; right: 5%; transform: rotate(12deg); }
+        #p5 { top: 40%; left: 2%; transform: rotate(-15deg); }
+        #p6 { top: 50%; right: 2%; transform: rotate(8deg); }
+        #p7 { top: 2%; left: 45%; transform: rotate(5deg); }
+        #p8 { bottom: 5%; left: 40%; transform: rotate(-8deg); }
 
-        /* --- MAIN CARD --- */
+        @media (max-width: 600px) { .polaroid-scatter { width: 75px; } }
+
+        /* --- UI ELEMENTS (SCRAPBOOK STYLE) --- */
         .page { display: none; width: 100%; height: 100vh; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
         #page1 { display: flex; }
 
-        .main-paper {
-            background: var(--paper); padding: 25px; width: 85%; max-width: 350px;
-            box-shadow: 5px 5px 20px rgba(0,0,0,0.1); position: relative; z-index: 100;
+        .main-card {
+            background: #fdfaf0; /* Paper Texture */
+            padding: 30px; border-radius: 2px;
+            z-index: 100; position: relative;
+            box-shadow: 5px 5px 20px rgba(0,0,0,0.1);
+            width: 85%; max-width: 400px;
+            transform: rotate(-1deg);
         }
 
-        .ransom div { display: inline-block; margin: 3px; }
+        /* Ransom Text Styling */
+        .ransom div { display: inline-block; margin: 2px; }
         .ransom span {
-            display: inline-block; padding: 4px 7px; margin: 1px;
-            background: white; box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-            font-size: 1.3rem; color: #333; text-transform: uppercase;
+            display: inline-block; padding: 4px 8px; margin: 1px;
+            background: white; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            font-family: 'Special Elite', cursive;
+            font-size: 1.4rem; color: #333; text-transform: uppercase;
         }
 
         button {
-            font-family: 'Special Elite', cursive; font-weight: bold;
-            padding: 12px 20px; cursor: pointer; border-radius: 5px;
-        }
-        #yes { background: #ff4d6d; color: white; border: none; transition: transform 0.2s ease; }
-        #no { 
-            background: #eee; color: #666; border: 1px solid #ccc;
-            position: absolute; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 10000 !important;
+            font-family: 'Poppins', sans-serif; font-weight: 600;
+            padding: 12px 25px; border-radius: 12px; border: none; cursor: pointer;
+            margin-top: 15px;
         }
 
-        .heart-trail { position: fixed; font-size: 25px; pointer-events: none; z-index: 99999; }
-        video { width: 100%; border-radius: 5px; margin: 10px 0; border: 4px solid white; }
-        .polaroid-inline { background: white; padding: 5px 5px 15px; width: 100px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1); }
+        #yes { background: #ff4d6d; color: white; z-index: 50; transition: transform 0.2s ease; }
+        #no { 
+            background: #8e8e8e; color: white; 
+            z-index: 10000 !important; 
+            position: relative; 
+            transition: all 0.2s ease;
+        }
+
+        .heart-trail {
+            position: fixed; font-size: 22px; pointer-events: none; z-index: 99999;
+            transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.5, 1), opacity 1.2s ease-out;
+        }
+
+        video { border-radius: 15px; margin-bottom: 15px; max-width: 90%; border: 5px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .polaroid-inline { background: white; padding: 10px 10px 25px; width: 120px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <audio id="bgMusic" loop><source src="static/bg-music.mp3" type="audio/mpeg"></audio>
+
+    <audio id="bgMusic" loop>
+        <source src="static/bg-music.mp3" type="audio/mpeg">
+    </audio>
 
     <section id="page1" class="page">
         <div class="polaroid-scatter" id="p1"><div class="tape tape-dots"></div><img src="static/images/wish1.jpg"></div>
@@ -90,17 +110,19 @@
         <div class="polaroid-scatter" id="p7"><div class="tape tape-dots"></div><img src="static/images/wish7.jpg"></div>
         <div class="polaroid-scatter" id="p8"><div class="tape tape-stripes"></div><img src="static/images/wish8.jpg"></div>
 
-        <div class="main-paper">
+        <div class="main-card">
             <h1 class="ransom" id="t1">Happy Birthday Gorgeous!</h1>
-            <button style="background:#ff4d6d; color:white; border:none;" onclick="startExperience()">Oru question... ❤️</button>
+            <button style="background:#ff4d6d; color:white;" onclick="startExperience()">Oru question... ❤️</button>
         </div>
     </section>
 
     <section id="page2" class="page">
-        <div class="main-paper">
-            <video autoplay loop muted playsinline><source src="static/images/kisses.mp4" type="video/mp4"></video>
-            <h1 class="ransom" id="t2" style="font-size:1rem;">KEERTHIIIII! MyLOUUUU, will you be my Valentine?(please😞)</h1>
-            <div style="height: 100px; position: relative; margin-top: 20px;">
+        <video width="250" autoplay loop muted playsinline>
+            <source src="static/images/kisses.mp4" type="video/mp4">
+        </video>
+        <div class="main-card">
+            <h1 class="ransom" id="t2">KEERTHIIIII! MyLOUUUU, will you be my Valentine?(please😞)</h1>
+            <div style="display: flex; gap: 20px; justify-content: center; align-items: center; min-height: 100px;">
                 <button id="yes" onclick="goToYesPage()">Yes</button>
                 <button id="no" onmouseover="moveNo()" onclick="moveNo()">No</button>
             </div>
@@ -108,44 +130,47 @@
     </section>
 
     <section id="page3" class="page">
-        <div class="main-paper">
-            <video autoplay loop muted playsinline><source src="static/images/kisses1.mp4" type="video/mp4"></video>
-            <h1 class="ransom" id="t3">UGHHHHHH I Looveee YOU SOOOOO MUCH BABYYYYY❤️</h1>
-            <div style="display: flex; gap: 5px; justify-content: center; margin: 15px 0;">
-                <div class="polaroid-inline" style="transform:rotate(-3deg)"><img src="static/images/pic1.jpg" style="width:100%"></div>
-                <div class="polaroid-inline" style="transform:rotate(4deg)"><img src="static/images/pic2.jpg" style="width:100%"></div>
-            </div>
-            <button style="background: white; color: #ff4d6d; border: 2px solid #ff4d6d;" onclick="goToFinalVideo()">Sheri Enna 👋</button>
+        <video width="250" autoplay loop muted playsinline>
+            <source src="static/images/kisses1.mp4" type="video/mp4">
+        </video>
+        <h1 class="ransom" id="t3">UGHHHHHH I Looveee YOU SOOOOO MUCH BABYYYYY❤️</h1>
+        <div style="display: flex; gap: 10px; justify-content: center; margin: 20px;">
+            <div class="polaroid-inline"><img src="static/images/pic1.jpg" style="width:100%"></div>
+            <div class="polaroid-inline" style="transform: rotate(5deg);"><img src="static/images/pic2.jpg" style="width:100%"></div>
         </div>
+        <button style="background: white; color: #ff4d6d; border: 2px solid #ff4d6d;" onclick="goToFinalVideo()">Sheri Enna 👋</button>
     </section>
 
     <section id="page4" class="page" style="background:#000;">
-        <video id="finalVid" controls playsinline style="height:100vh; width:100vw; object-fit:contain;">
+        <video id="finalVid" controls playsinline style="width:100%; height:100%; object-fit: contain;">
             <source src="static/images/vid1.mp4" type="video/mp4">
         </video>
     </section>
 
     <script>
+        // --- RESTORING ALL ORIGINAL LOGIC ---
+
         function applyRansom(id) {
             const el = document.getElementById(id);
             const words = el.innerText.split(' ');
             el.innerHTML = '';
             words.forEach(word => {
-                const wordSpan = document.createElement('div');
+                const wordDiv = document.createElement('div');
                 word.split('').forEach(char => {
                     const span = document.createElement('span');
                     span.innerText = char;
                     span.style.transform = `rotate(${(Math.random()*12)-6}deg)`;
-                    wordSpan.appendChild(span);
+                    wordDiv.appendChild(span);
                 });
-                el.appendChild(wordSpan);
+                el.appendChild(wordDiv);
             });
         }
 
+        // Apply on load for first page
         applyRansom('t1');
 
         function startExperience() {
-            document.getElementById('bgMusic').play().catch(()=>{});
+            document.getElementById('bgMusic').play().catch(() => {});
             showPage('page2');
             applyRansom('t2');
         }
@@ -153,7 +178,7 @@
         function goToYesPage() {
             showPage('page3');
             applyRansom('t3');
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            confetti({ particleCount: 150, spread: 70, origin: { x: 0.5, y: 0.5 } });
         }
 
         function goToFinalVideo() {
@@ -162,40 +187,43 @@
             document.getElementById('finalVid').play();
         }
 
-        function showPage(id) {
+        function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-            document.getElementById(id).style.display = 'flex';
+            document.getElementById(pageId).style.display = 'flex';
         }
 
-        let yesScale = 1;
+        let yesSize = 1;
         function moveNo() {
-            const no = document.getElementById("no");
-            const yes = document.getElementById("yes");
+            const noBtn = document.getElementById("no");
+            const yesBtn = document.getElementById("yes");
             
-            // Randomly jump within the screen
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 50);
+            // Smoother, broader jump logic
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 100) + 50;
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 100) + 50;
             
-            no.style.left = x + "px";
-            no.style.top = y + "px";
-            
-            yesScale += 0.2;
-            yes.style.transform = `scale(${yesScale})`;
+            noBtn.style.position = "fixed";
+            noBtn.style.left = x + "px";
+            noBtn.style.top = y + "px";
+
+            yesSize += 0.2;
+            yesBtn.style.transform = `scale(${yesSize})`;
         }
 
-        document.addEventListener('mousemove', (e) => {
-            if (Math.random() > 0.1) { // Only spawn some of the time to avoid lag
-                const h = document.createElement('div');
-                h.className = 'heart-trail'; h.innerHTML = '❤️';
-                h.style.left = e.clientX + 'px'; h.style.top = e.clientY + 'px';
-                document.body.appendChild(h);
-                setTimeout(() => {
-                    h.style.transform = `translate(${(Math.random()-0.5)*150}px, -150px) scale(2)`;
-                    h.style.opacity = '0';
-                }, 50);
-                setTimeout(() => h.remove(), 1000);
-            }
-        });
+        // --- THE ORIGINAL HEART TRAIL ---
+        document.addEventListener('mousemove', (e) => spawnHeart(e.clientX, e.clientY));
+        function spawnHeart(x, y) {
+            const heart = document.createElement('div');
+            heart.className = 'heart-trail';
+            heart.innerHTML = '❤️';
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => {
+                heart.style.transform = `translate(${(Math.random()-0.5)*150}px, -150px) scale(2)`;
+                heart.style.opacity = '0';
+            }, 20);
+            setTimeout(() => heart.remove(), 1200);
+        }
     </script>
 </body>
 </html>
