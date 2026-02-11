@@ -80,17 +80,17 @@
             justify-content: center;
         }
 
-        /* --- PAPER CLIPS (NEW) --- */
+        /* --- PAPER CLIP (NEW) - Single clip on top-right --- */
         .paper-clip {
             position: absolute;
-            width: 40px;
+            width: 35px;
             height: auto;
             z-index: 101;
             filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3));
+            top: -5px;
+            right: 20%;
+            transform: rotate(5deg); /* Nearly straight, just slight tilt */
         }
-        
-        .clip-1 { top: -8px; left: 15%; transform: rotate(-25deg); }
-        .clip-2 { top: -8px; right: 15%; transform: rotate(30deg) scaleX(-1); }
 
         /* --- RANSOM TEXT (UPGRADED) --- */
         .ransom {
@@ -176,9 +176,8 @@
         <div class="polaroid-scatter" id="p8"><div class="tape tape-stripes"></div><img src="static/images/wish8.jpg"></div>
 
         <div class="main-card">
-            <!-- NEW: Paper clips -->
-            <img src="static/images/paper-clip.png" class="paper-clip clip-1" alt="">
-            <img src="static/images/paper-clip.png" class="paper-clip clip-2" alt="">
+            <!-- NEW: Single paper clip on top-right -->
+            <img src="static/images/paper-clip.png" class="paper-clip" alt="">
             
             <h1 class="ransom" id="t1">Happy Birthday Gorgeous! <span class="emoji-span">🎂</span></h1>
             <button style="background:#ff4d6d; color:white;" onclick="startExperience()">Oru question... ❤️</button>
@@ -187,9 +186,8 @@
 
     <section id="page2" class="page">
         <div class="main-card">
-            <!-- NEW: Paper clips -->
-            <img src="static/images/paper-clip.png" class="paper-clip clip-1" alt="">
-            <img src="static/images/paper-clip.png" class="paper-clip clip-2" alt="">
+            <!-- NEW: Single paper clip on top-right -->
+            <img src="static/images/paper-clip.png" class="paper-clip" alt="">
             
             <video autoplay loop muted playsinline><source src="static/images/kisses.mp4" type="video/mp4"></video>
             <h1 class="ransom" id="t2">KEERTHIIIII! MyLOUUUU, will you be my Valentine?(please<span class="emoji-span">😞</span>)</h1>
@@ -202,9 +200,8 @@
 
     <section id="page3" class="page">
         <div class="main-card">
-            <!-- NEW: Paper clips -->
-            <img src="static/images/paper-clip.png" class="paper-clip clip-1" alt="">
-            <img src="static/images/paper-clip.png" class="paper-clip clip-2" alt="">
+            <!-- NEW: Single paper clip on top-right -->
+            <img src="static/images/paper-clip.png" class="paper-clip" alt="">
             
             <video autoplay loop muted playsinline><source src="static/images/kisses1.mp4" type="video/mp4"></video>
             <h1 class="ransom" id="t3">UGHHHHHH I Looveee YOU SOOOOO MUCH BABYYYYY<span class="emoji-span">❤️</span></h1>
