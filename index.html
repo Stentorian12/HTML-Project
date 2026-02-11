@@ -50,9 +50,9 @@
         #p1 { top: 5%; left: 5%; transform: rotate(-10deg); }
         #p2 { top: 12%; right: 5%; transform: rotate(15deg); }
         #p3 { bottom: 8%; left: 6%; transform: rotate(-8deg); }
-        #p4 { bottom: 12%; right: 8%; transform: rotate(12deg); }
+        #p4 { bottom: 25%; right: 5%; transform: rotate(8deg); }
         #p5 { top: 40%; left: 3%; transform: rotate(-12deg); }
-        #p6 { top: 55%; right: 4%; transform: rotate(10deg); }
+        #p6 { top: 45%; right: 2%; transform: rotate(-5deg); }
         #p7 { top: 3%; left: 45%; transform: rotate(5deg); }
         #p8 { bottom: 6%; left: 42%; transform: rotate(-4deg); }
 
@@ -187,20 +187,21 @@
             width: 100px; 
             box-shadow: 0 5px 10px rgba(0,0,0,0.1); 
         }
-        /* The Phone Case Button */
+        /* Smaller, tucked phone case */
         #phone-case-easter-egg {
             position: fixed;
-            bottom: -50px; /* Hides the bottom part of the case */
-            right: -20px;
-            width: 150px; /* Adjust based on your PNG size */
-            transform: rotate(-15deg);
+            bottom: -30px; /* Tucked slightly more */
+            right: -10px;
+            width: 100px; /* Decreased size as requested */
+            transform: rotate(-12deg);
             cursor: pointer;
-            z-index: 200; /* Above polaroids */
-            transition: transform 0.3s ease;
+            z-index: 200;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         #phone-case-easter-egg:hover {
-            transform: rotate(-10deg) scale(1.05); /* Small hint movement */
+            /* Subtle "pick me up" hint */
+            transform: rotate(-5deg) scale(1.1) translateY(-5px);
         }
 
         /* The Letter Overlay */
