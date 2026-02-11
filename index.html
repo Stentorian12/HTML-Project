@@ -63,10 +63,14 @@
         /* --- MAIN CARD (NEW: Torn paper background) --- */
         .main-card {
             /* NEW: Torn paper with rough edges as background */
-            background-image: url('static/images/torn-paper.png');
+            background-image: url('static/images/torn-paper.jpg');
             background-size: 100% 100%; /* Stretch to fit container */
             background-repeat: no-repeat;
             background-position: center;
+            background-color: transparent; /* Force transparent */
+            
+            /* Try to make black areas transparent */
+            background-blend-mode: screen;
             
             padding: 20px;
             border-radius: 0; /* Remove rounded corners since paper has rough edges */
@@ -144,6 +148,32 @@
             display: block;
             border: 3px solid white; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        }
+        
+        /* MOBILE FIX: Smaller video on mobile so button stays visible */
+        @media (max-width: 600px) {
+            video {
+                width: 55%; /* Even smaller on mobile */
+                margin: 0 auto 8px auto;
+            }
+            
+            .main-card {
+                padding: 15px; /* Tighter padding on mobile */
+                max-width: 320px;
+            }
+            
+            .ransom {
+                margin: 8px 0; /* Reduce margins */
+            }
+            
+            .polaroid-inline {
+                width: 80px; /* Smaller polaroids on mobile */
+            }
+            
+            button {
+                padding: 10px 20px; /* Smaller buttons */
+                font-size: 0.9rem;
+            }
         }
         
         .polaroid-inline { 
