@@ -62,26 +62,25 @@
 
         /* --- MAIN CARD (NEW: Torn paper background) --- */
         .main-card {
-            /* NEW: Torn paper with rough edges as background */
             background-image: url('static/images/torn-paper.png');
-            background-size: 100% 100%; /* Stretch to fit container */
+            background-size: 100% 100%; 
             background-repeat: no-repeat;
             background-position: center;
-            background-color: transparent; /* Force transparent */
-            
-            /* Try to make black areas transparent */
-            background-blend-mode: screen;
-            
-            padding: 20px;
-            border-radius: 0; /* Remove rounded corners since paper has rough edges */
+            background-color: transparent;
+    
+            /* This padding keeps everything INSIDE the visible paper edges */
+            padding: 45px 50px; 
+    
+            border-radius: 0;
             z-index: 100; 
             position: relative;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             width: 90%; 
-            max-width: 340px;
+            max-width: 360px;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            box-sizing: border-box; /* Ensures padding doesn't push the box off-screen */
         }
 
         /* --- PAPER CLIP (NEW) - Single clip on top-right --- */
@@ -303,7 +302,7 @@
                             span.style.backgroundColor = bgColors[Math.floor(Math.random() * bgColors.length)];
                             span.style.color = textColors[Math.floor(Math.random() * textColors.length)];
                             span.style.fontFamily = fonts[Math.floor(Math.random() * fonts.length)];
-                            span.style.fontSize = (Math.random() * 0.3 + 0.95) + 'rem'; // 0.95-1.25rem
+                            span.style.fontSize = (Math.random() * 0.2 + 0.8) + 'rem'; // 0.95-1.25rem
                             span.style.transform = `rotate(${(Math.random()*12)-6}deg)`; // -6 to +6 degrees
                             span.style.fontWeight = Math.random() > 0.5 ? 'bold' : 'normal';
                             span.style.fontStyle = Math.random() > 0.7 ? 'italic' : 'normal';
