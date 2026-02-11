@@ -62,37 +62,43 @@
 
         /* --- MAIN CARD (NEW: Torn paper background) --- */
         .main-card {
+            /* Uses your torn paper image [cite: 18, 107] */
             background-image: url('static/images/torn-paper.png');
-            background-size: 100% 100%; 
+    
+            /* "cover" ensures the paper expands to fill the entire card area [cite: 21, 61] */
+            background-size: cover; 
             background-repeat: no-repeat;
             background-position: center;
             background-color: transparent;
     
-            /* This padding keeps everything INSIDE the visible paper edges */
-            padding: 45px 50px; 
+            /* Padding keeps text and buttons away from the very edges of the paper [cite: 12, 106] */
+            padding: 30px 25px; 
     
-            border-radius: 0;
+            border-radius: 0; 
             z-index: 100; 
             position: relative;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            width: 90%; 
-            max-width: 360px;
+    
+            /* Slightly wider card to give the ransom letters more room [cite: 21] */
+            width: 95%; 
+            max-width: 380px;
+    
             display: flex;
             flex-direction: column;
             justify-content: center;
-            box-sizing: border-box; /* Ensures padding doesn't push the box off-screen */
+            box-sizing: border-box; /* Ensures the card doesn't exceed screen width [cite: 81, 156] */
         }
 
         /* --- PAPER CLIP (NEW) - Single clip on top-right --- */
         .paper-clip {
             position: absolute;
-            width: 35px;
+            width: 40px; /* Slightly larger clip for the larger card [cite: 25] */
             height: auto;
             z-index: 101;
             filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3));
-            top: -5px;
-            right: 20%;
-            transform: rotate(5deg); /* Nearly straight, just slight tilt */
+            top: -10px;
+            right: 15%; /* Adjusted position [cite: 76, 115] */
+            transform: rotate(10deg);
         }
 
         /* --- RANSOM TEXT (UPGRADED) --- */
